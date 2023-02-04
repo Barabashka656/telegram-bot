@@ -2,12 +2,9 @@
   Gabe Newell's agent
 </h1>
 
-<h1 align="center">
-  <picture>
-    <img height="100px" src="images/bot_logo.jpg">
-  </picture>
-</h1>
-
+<h2 align="center">
+  <img height="300px" src="images/bot_logo.jpg">
+</h2>
 
 <p align="center">
   <a title="Python version" href="https://www.python.org/downloads/release/python-3100">
@@ -18,10 +15,7 @@
   </a>
 </p>
 
-
-
-
-## This is a Telegram Bot built using [Aiogram](https://www.youtube.com/watch?v=NXNf9aYTCZ0&ab_channel=PyLounge-%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%D0%BD%D0%B0Python%D0%B8%D0%B2%D1%81%D1%91%D0%BEIT) library in Python. The bot can perform the following tasks:
+## This is a Telegram Bot built using [Aiogram](https://github.com/aiogram/aiogram#aiogram) library in Python. The bot can perform the following tasks:
 
 
 - translate text (soon)
