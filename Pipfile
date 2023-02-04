@@ -15,6 +15,10 @@ requests = "*"
 python-binance = "*"
 peewee = "*"
 apscheduler = "*"
+pyshorteners = "*"
+epicstore-api = "*"
+opencv-python = "*"
+openai = "*"
 
 [dev-packages]
 
