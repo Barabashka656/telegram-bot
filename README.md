@@ -8,15 +8,17 @@
 
 <p align="center">
   <a title="Python version" href="https://www.python.org/downloads/release/python-3100">
-    <img alt="'Build' workflow Status" src="https://img.shields.io/github/pipenv/locked/python-version/barabashka656/super-bot?color=%231E90FF">
+    <img alt="'Build' workflow Status" src="https://img.shields.io/github/pipenv/locked/python-version/barabashka656/super-bot?color=%231E90FF&style=for-the-badge">
   </a>
   <a title="aiogram version" href="https://github.com/aiogram/aiogram#aiogram">
-   <img alt= ""src="https://img.shields.io/github/pipenv/locked/dependency-version/barabashka656/super-bot/aiogram?color=%2300FF00">
+   <img alt= ""src="https://img.shields.io/github/pipenv/locked/dependency-version/barabashka656/super-bot/aiogram?color=%2300FF00&style=for-the-badge">
   </a>
   <a title="telegram bot" href="https://t.me/MaksimNeBot">
-   <img alt= ""src="https://img.shields.io/badge/telegram-%40MaksimNeBot-blue">
+   <img alt= ""src="https://img.shields.io/badge/telegram-%40MaksimNeBot-blue?style=for-the-badge">
   </a>
-  <img alt="GitHub" src="https://img.shields.io/github/license/Barabashka656/super-bot">
+  <a title="license" href="https://github.com/Barabashka656/super-bot/blob/main/LICENSE">
+  <img alt="" src="https://img.shields.io/github/license/Barabashka656/super-bot?style=for-the-badge">
+  </a>
 </p>
 
 # Description
