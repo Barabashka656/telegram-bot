@@ -7,12 +7,8 @@ from peewee import (
     ForeignKeyField
 )
 import datetime
-from data.config import DATABASE_DIR  # only if you wand to run bot from run.py
-# and make changes in database structure
+from data.config import DATABASE_DIR
 
-# if you want to create a database or upload tables you need to run this script
-# and add your path to the database
-# DATABASE_DIR = r''
 
 db = SqliteDatabase(DATABASE_DIR)
 
@@ -51,6 +47,7 @@ class EpicFreeGame(BaseModel):
     key_image_url = CharField()
     start_date = DateTimeField(null=True)
     end_date = DateTimeField(null=True)
+    original_price = CharField()
 
     class Meta:
         db_table = 'EpicFreeGame'
@@ -89,4 +86,4 @@ def create_database():
                   ]
 
         db.create_tables(models)
-        # db.create_tables([ShortcutTable])
+        # db.create_tables([EpicFreeGame])

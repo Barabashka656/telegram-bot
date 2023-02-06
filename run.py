@@ -14,15 +14,17 @@ async def set_all_default_commands(dp: Dispatcher):
     await set_default_commands(dp)
 
 
-def check_database_exist():
-    if not os.path.exists(DATABASE_DIR):
+def check_database_exist(update_database: bool):
+    if not os.path.exists(DATABASE_DIR) \
+       or update_database:
         create_database()
 
 
 async def on_startup(dp: Dispatcher):
     await set_all_default_commands(dp)
 
-    check_database_exist()
+    update_database = False
+    check_database_exist(update_database)
 
     set_bot_schedule(scheduler)
 
