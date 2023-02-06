@@ -49,10 +49,12 @@ async def show_epic_free_games(call: types.CallbackQuery):
                 end_date = end_date.strftime("%H:%M %d-%m-%Y")
 
                 answer_text = f"{game.title}\n" +\
-                              f"Игра бесплатна с {start_date} по {end_date}"
+                              f"Игра бесплатна с {start_date} по {end_date}\n" +\
+                              f"<s> {game.original_price}</s> -> Free!"
 
                 await call.message.answer(text=answer_text,
-                                          reply_markup=epic_store_keyboard)
+                                          reply_markup=epic_store_keyboard,
+                                          parse_mode="html")
             else:
                 await call.message.answer(text=f"{game.title} дата неизвестна",
                                           reply_markup=epic_store_keyboard)
