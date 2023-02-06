@@ -23,7 +23,7 @@ async def show_epic_free_games(call: types.CallbackQuery):
     await call.message.delete()
     with db:
         games = EpicFreeGame.select()
-        x = 0
+        games_counter = 0
         for game in games:
             epic_store_keyboard = InlineKeyboardMarkup(row_width=2)
             epic_link = InlineKeyboardButton(text="Открыть Epic games",
@@ -31,8 +31,8 @@ async def show_epic_free_games(call: types.CallbackQuery):
 
             epic_store_keyboard.insert(epic_link)
 
-            x += 1
-            if x == len(games):
+            games_counter += 1
+            if games_counter == len(games):
                 epic_store_keyboard.insert(menu_newmsg_buttom)
                 if EpicMail.get_or_none(user_id=call.from_user.id):
                     epic_store_keyboard.insert(epic_cancel_newmsg_buttom)

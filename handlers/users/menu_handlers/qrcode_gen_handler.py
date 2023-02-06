@@ -22,7 +22,7 @@ async def set_qr_state(call: types.CallbackQuery):
 @dp.message_handler(state=QrGenState.qr_gen_data)
 async def send_qr(message: types.Message, state: FSMContext):
 
-    file = generate_qrcode(message.text)
-    await message.answer_photo(photo=file,
+    qr_code_photo = generate_qrcode(message.text)
+    await message.answer_photo(photo=qr_code_photo,
                                reply_markup=menu_newmsg_back_keyboard)
     await state.finish()

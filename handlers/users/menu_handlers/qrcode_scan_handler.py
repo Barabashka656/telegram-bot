@@ -5,7 +5,7 @@ from keyboards.inline.menu_keyboards.menu_callback_datas\
     import start_menu_callback
 
 from keyboards.inline.menu_keyboards.menu_buttoms import (
-    menu_editmsg_qrScanState_buttom,
+    menu_editmsg_qrscanstate_buttom,
     menu_newmsg_back_keyboard
 )
 from states.menu_states import QrScanState
@@ -26,7 +26,7 @@ async def set_qr_state(call: types.CallbackQuery):
 
 @dp.message_handler(state=QrScanState.qr_scan_data)
 async def handle_wrong_update(message: types.Message):  # TODO: rename func
-    keyboard = InlineKeyboardMarkup().insert(menu_editmsg_qrScanState_buttom)
+    keyboard = InlineKeyboardMarkup().insert(menu_editmsg_qrscanstate_buttom)
     answer_text = "Отправьте не текст, а фото"
     await message.answer(text=answer_text, reply_markup=keyboard)
 

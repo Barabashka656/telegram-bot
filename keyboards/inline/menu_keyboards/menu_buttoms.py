@@ -80,7 +80,7 @@ epic_cancel_settings_buttom = InlineKeyboardButton(
 
 # additional buttoms
 
-menu_editmsg_qrScanState_buttom = InlineKeyboardButton(
+menu_editmsg_qrscanstate_buttom = InlineKeyboardButton(
     text="Назад в меню",
     callback_data="menu:2:menu_qrScanState"
 )

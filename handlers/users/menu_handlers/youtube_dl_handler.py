@@ -35,18 +35,18 @@ async def send_video(message: types.Message, state: FSMContext):
             return
 
     file_dir = STORAGE_DIR + f"{message.from_user.id}.webm"
-    m = await bot.send_message(message.chat.id, 'скачиваем видео')
+    message_tobe_removed = await bot.send_message(message.chat.id, 'скачиваем видео')
 
-    file = youtube_download(chat_id=message.from_user.id, text=message.text)
+    youtube_video = youtube_download(chat_id=message.from_user.id, text=message.text)
     # TODO handle telegram limit error
-    await m.edit_text(text="отправляем видео")
-    Message = await message.answer_video(video=file, reply_markup=menu_newmsg_back_keyboard)
+    await message_tobe_removed.edit_text(text="отправляем видео")
+    video_id = await message.answer_video(video=youtube_video, reply_markup=menu_newmsg_back_keyboard)
 
     YoutubeDlInfo(user_id=message.from_user.id,
                   yt_url=message.text,
-                  file_id=Message.video.file_id
+                  file_id=video_id.video.file_id
                   ).save()
 
-    await m.delete()
+    await message_tobe_removed.delete()
     os.remove(file_dir)
     await state.finish()

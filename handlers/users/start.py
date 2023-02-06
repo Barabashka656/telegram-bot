@@ -39,7 +39,7 @@ async def bot_start_edit(call: types.CallbackQuery):
 
 @dp.callback_query_handler(start_menu_callback.filter(category="menu_qrScanState", menu_level="2"),
                            state=QrScanState.qr_scan_data)
-async def bot_start_qrState(call: types.CallbackQuery, state: FSMContext):
+async def bot_start_qr_state(call: types.CallbackQuery, state: FSMContext):
     await call.answer(cache_time=0)
     await state.finish()
     await call.message.edit_text(text="Выбирай категорию!", reply_markup=first_level_menu_keyboard)
