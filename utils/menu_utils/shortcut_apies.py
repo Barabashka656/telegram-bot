@@ -1,9 +1,13 @@
 from loader import shortcut_object
 from pyshorteners.exceptions import (
     ShorteningErrorException,
-    ExpandingErrorException,
-    BadAPIResponseException
+    # ExpandingErrorException,
+    # BadAPIResponseException
 )
+shortcut_services = ("tinyurl", "chilpit",
+                     "clckru", "dagd",
+                     "isgd"
+                     )
 
 
 def tinyurl(url: str, create: bool = True) -> tuple:

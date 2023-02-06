@@ -17,11 +17,6 @@ from utils.db_api.models_peewee import (
 from aiogram.dispatcher.storage import FSMContext
 from aiogram import types
 
-shortcut_services = ("tinyurl", "chilpit",
-                     "clckru", "dagd",
-                     "isgd"
-                     )
-
 
 @dp.callback_query_handler(start_menu_callback.filter(category="shortcut_gen"))
 async def set_shortcut_state(call: types.CallbackQuery):
@@ -62,7 +57,7 @@ async def send_shortcut_url(message: types.Message, state: FSMContext):
         await state.finish()
 
 
-@dp.callback_query_handler(start_menu_callback.filter(category=shortcut_services))
+@dp.callback_query_handler(start_menu_callback.filter(category=shortcut_apies.shortcut_services))
 async def set_shortcut_service_in_db(call: types.CallbackQuery):
     await call.answer(cache_time=0)
     try:

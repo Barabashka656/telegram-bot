@@ -27,8 +27,9 @@ async def send_shortcut_url(message: types.Message, state: FSMContext):
     await message.delete()
     print('scan')
     error = False
+    shortcut_decode = shortcut_apies.shortcut_services[0:1]
     try:
-        shortcut_func = getattr(shortcut_apies, "tinyurl")
+        shortcut_func = getattr(shortcut_apies, shortcut_decode[0])
         shortcut_url = shortcut_func(message.text, False)
     except Exception as e:
         print("short_scan_err", e.args)
@@ -36,7 +37,7 @@ async def send_shortcut_url(message: types.Message, state: FSMContext):
         print(shortcut_url)
         error = True
         try:
-            shortcut_func = getattr(shortcut_apies, "chilpit")
+            shortcut_func = getattr(shortcut_apies, shortcut_decode[1])
             shortcut_url = shortcut_func(message.text, False)
         except Exception as e:
             print("short_scan_err2", e.args)
