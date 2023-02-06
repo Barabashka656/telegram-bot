@@ -20,7 +20,8 @@ async def write_to_database() -> tuple | None:  # TODO: remake func
     """
     flag = True
     game_url = "https://store.epicgames.com/ru/p/"
-    unknown_date = datetime.datetime.strptime('2099-01-01T00:00:00.000Z', "%Y-%m-%dT%H:%M:%S.%f%z").astimezone(ZoneInfo('Europe/Minsk'))
+    raw_unknown_date = '2099-01-01T00:00:00.000Z', "%Y-%m-%dT%H:%M:%S.%f%z"
+    unknown_date = datetime.datetime.strptime(raw_unknown_date).astimezone(ZoneInfo('Europe/Minsk'))
     free_games = []
     try:
         api = EpicGamesStoreAPI().get_free_games()
