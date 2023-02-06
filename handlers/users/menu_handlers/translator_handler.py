@@ -7,6 +7,4 @@ from loader import dp
 async def buying_pear(call: CallbackQuery):
     await call.answer(cache_time=0)
     await call.message.delete()
-    await call.message.answer(f"Переводчик" )#reply_markup=)
-
-
+    await call.message.answer("Переводчик")  # reply_markup=)

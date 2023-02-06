@@ -1,5 +1,10 @@
-from loader import shortcut_object 
-from pyshorteners.exceptions import ShorteningErrorException, ExpandingErrorException, BadAPIResponseException
+from loader import shortcut_object
+from pyshorteners.exceptions import (
+    ShorteningErrorException,
+    ExpandingErrorException,
+    BadAPIResponseException
+)
+
 
 def tinyurl(url: str, create: bool = True) -> tuple:
     try:
@@ -23,7 +28,6 @@ def chilpit(url: str, create: bool = True) -> tuple:
     except Exception as e:
         print("exception")
         return e.args
-        
 
 
 def clckru(url: str, create: bool = True) -> tuple:
@@ -38,7 +42,6 @@ def clckru(url: str, create: bool = True) -> tuple:
         return e.args
 
 
-
 def dagd(url: str, create: bool = True) -> tuple:
     try:
         if create:
@@ -51,7 +54,7 @@ def dagd(url: str, create: bool = True) -> tuple:
         return e.args
 
 
-def isgd(url: str, create: bool = True, code: str | None = None) -> str:  #TODO: ADD support for code
+def isgd(url: str, create: bool = True, code: str | None = None) -> str:  # TODO: ADD support for code
     try:
         if create:
             return (False, shortcut_object.isgd.short(url))
@@ -61,7 +64,3 @@ def isgd(url: str, create: bool = True, code: str | None = None) -> str:  #TODO:
     except Exception as e:
         print("exception")
         return e.args
-
-
-
-   

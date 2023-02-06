@@ -4,17 +4,16 @@ from pprint import pprint
 import datetime
 
 from loader import scheduler
-from utils.db_api.models_peewee import *
+from utils.db_api.models_peewee import (
+    EpicFreeGame
+)
 from utils.menu_utils.epic_games_utils import show_epic_free_notification
+
 
 from epicstore_api import EpicGamesStoreAPI
 
 
-
-
-import json
-
-async def write_to_database() -> tuple | None:
+async def write_to_database() -> tuple | None:  # TODO: remake func
     """
     The function writes data to the database
     :return:

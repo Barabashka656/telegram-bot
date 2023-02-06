@@ -1,21 +1,25 @@
 from loader import dp
 
-from keyboards.inline.menu_keyboards.menu_callback_datas import start_menu_callback
-from keyboards.inline.menu_keyboards.menu_buttoms import menu_editmsg_back_keyboard, menu_newmsg_back_keyboard
+from keyboards.inline.menu_keyboards.menu_callback_datas\
+    import start_menu_callback
+from keyboards.inline.menu_keyboards.menu_buttoms import (
+    menu_editmsg_back_keyboard,
+    menu_newmsg_back_keyboard
+)
 from states.menu_states import ShortcutScanState
-from utils.menu_utils import shortcut_apies  
-from utils.db_api.models_peewee import *
+from utils.menu_utils import shortcut_apies
 
 from aiogram.dispatcher.storage import FSMContext
 from aiogram import types
 
 
-@dp.callback_query_handler(start_menu_callback.filter(category="shortcut_scan"))
+@dp.callback_query_handler(start_menu_callback.filter(
+    category="shortcut_scan"))
 async def set_shortcut_state(call: types.CallbackQuery):
-    await call.answer(cache_time=0)  
-    await call.message.edit_text("Введите ссылку, которую требуется расшифровать")
+    await call.answer(cache_time=0)
+    answer_text = "Введите ссылку, которую требуется расшифровать"
+    await call.message.edit_text(text=answer_text)
     await ShortcutScanState.shortcut_scan_data.set()
-
 
 
 @dp.message_handler(state=ShortcutScanState.shortcut_scan_data)
@@ -38,19 +42,16 @@ async def send_shortcut_url(message: types.Message, state: FSMContext):
             print("short_scan_err2", e.args)
             print(e)
             print(shortcut_url)
-            await message.answer(text = "я не могу расшифровать данную ссылку(", reply_markup=menu_editmsg_back_keyboard)
+            answer_text = "я не могу расшифровать данную ссылку("
+            await message.answer(text=answer_text,
+                                 reply_markup=menu_editmsg_back_keyboard)
             await state.finish()
         else:
             error = False
-            
-        
-       
+
     if not error:
         text = f"<code>{message.text}</code>\n\
                                 \n------------------------>\
                                     \n\n<code>{shortcut_url[1]}</code>"
-        await message.answer(text = text, reply_markup=menu_newmsg_back_keyboard)
+        await message.answer(text=text, reply_markup=menu_newmsg_back_keyboard)
         await state.finish()
-
-
-
