@@ -20,4 +20,4 @@ def scan_qrcode(filedir: str) -> str:
     os.remove(filedir)
     return barcodes[0].data.decode()
 
-# TODO: advanced qr //pip qrcode
+# TODO(make qr): advanced qr //pip qrcode

@@ -23,8 +23,11 @@ openai = "*"
 [dev-packages]
 flake8-bugbear = "*"
 flake8-builtins = "*"
-pep8-naming = "*"
 flake8-variables-names = "*"
+flake8-simplify = "*"
+flake8-pie = "*"
+hacking = "*"
+pep8-naming = "*"
 
 [requires]
 python_version = "3.10"

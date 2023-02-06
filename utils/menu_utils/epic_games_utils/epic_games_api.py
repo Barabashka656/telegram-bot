@@ -79,7 +79,7 @@ def get_free_games() -> list | tuple:
     return free_games
 
 
-async def manage_free_games() -> tuple | None:  # TODO: remake func
+async def manage_free_games() -> tuple | None:  # TODO(remake): remake func
     """
     The function writes data to the database
     :return:

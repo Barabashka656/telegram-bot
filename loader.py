@@ -2,7 +2,10 @@ from data.config import TELEGRAM_API_TOKEN
 
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
-from aiogram import Bot, Dispatcher
+from aiogram import (
+    Bot,
+    Dispatcher
+)
 import pyshorteners
 
 

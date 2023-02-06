@@ -7,7 +7,10 @@ from utils.set_bot_commands import set_default_commands
 from utils.db_api.models_peewee import create_database
 import handlers
 
-from aiogram import Dispatcher, executor
+from aiogram import (
+    Dispatcher,
+    executor
+)
 
 
 async def set_all_default_commands(dp: Dispatcher):

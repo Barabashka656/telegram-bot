@@ -38,7 +38,7 @@ async def send_video(message: types.Message, state: FSMContext):
     message_tobe_removed = await bot.send_message(message.chat.id, 'скачиваем видео')
 
     youtube_video = youtube_download(chat_id=message.from_user.id, text=message.text)
-    # TODO handle telegram limit error
+    # TODO(error) handle telegram limit error
     await message_tobe_removed.edit_text(text="отправляем видео")
     video_id = await message.answer_video(video=youtube_video, reply_markup=menu_newmsg_back_keyboard)
 

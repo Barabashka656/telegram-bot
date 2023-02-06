@@ -1,5 +1,8 @@
 from aiogram import Dispatcher
-from aiogram.types import BotCommand, BotCommandScopeDefault
+from aiogram.types import (
+    BotCommand,
+    BotCommandScopeDefault
+)
 
 STARTING_COMMANDS = {
     'en': [

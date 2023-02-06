@@ -23,15 +23,13 @@ async def show_epic_free_games(call: types.CallbackQuery):
     await call.message.delete()
     with db:
         games = EpicFreeGame.select()
-        games_counter = 0
-        for game in games:
+        for games_counter, game in enumerate(games):
             epic_store_keyboard = InlineKeyboardMarkup(row_width=2)
             epic_link = InlineKeyboardButton(text="Открыть Epic games",
                                              url=game.product_slug)
 
             epic_store_keyboard.insert(epic_link)
 
-            games_counter += 1
             if games_counter == len(games):
                 epic_store_keyboard.insert(menu_newmsg_buttom)
                 if EpicMail.get_or_none(user_id=call.from_user.id):

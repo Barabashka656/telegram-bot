@@ -58,7 +58,7 @@ def dagd(url: str, create: bool = True) -> tuple:
         return e.args
 
 
-def isgd(url: str, create: bool = True, code: str | None = None) -> str:  # TODO: ADD support for code
+def isgd(url: str, create: bool = True, code: str | None = None) -> str:  # TODO(shortcut): ADD support for code
     try:
         if create:
             return (False, shortcut_object.isgd.short(url))

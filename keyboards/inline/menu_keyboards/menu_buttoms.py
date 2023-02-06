@@ -1,6 +1,12 @@
-from data.config import DISCORD_INVITE_LINK, TELEGRAM_LINK
+from data.config import (
+    DISCORD_INVITE_LINK,
+    TELEGRAM_LINK
+)
 
-from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from aiogram.types import (
+    InlineKeyboardMarkup,
+    InlineKeyboardButton
+)
 
 '''
 template

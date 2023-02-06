@@ -6,9 +6,15 @@ from utils.db_api.models_peewee import (
     EpicFreeGame,
     Utility
 )
-from keyboards.inline.menu_keyboards.menu_buttoms import epic_cancel_newmsg_buttom, menu_editmsg_buttom
+from keyboards.inline.menu_keyboards.menu_buttoms import (
+    epic_cancel_newmsg_buttom,
+    menu_editmsg_buttom
+)
 
-from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from aiogram.types import (
+    InlineKeyboardButton,
+    InlineKeyboardMarkup
+)
 
 
 async def show_epic_free_notification(user_id: int):

@@ -1,5 +1,8 @@
 from loader import dp
-from utils.db_api.models_peewee import db, EpicMail
+from utils.db_api.models_peewee import (
+    db,
+    EpicMail
+)
 from keyboards.inline.menu_keyboards.menu_callback_datas\
     import start_menu_callback
 from keyboards.inline.menu_keyboards.menu_buttoms import (
