@@ -3,7 +3,7 @@
 </h1>
 
 <h3 align="center">
-  <img height="300px" src="data/images/bot_logo.jpg">
+  <img height="300px" src="bot/data/images/bot_logo.jpg">
 </h3>
 
 <p align="center">
