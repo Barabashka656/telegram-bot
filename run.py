@@ -1,11 +1,15 @@
 import os.path
 
-from loader import dp, scheduler
-from data.config import DATABASE_DIR
-from utils.set_scheduler import set_bot_schedule
-from utils.set_bot_commands import set_default_commands
-from utils.db_api.models_peewee import create_database
-import handlers
+from bot.loader import dp, scheduler
+from bot.data.config import DATABASE_DIR
+from bot.utils.set_scheduler import set_bot_schedule
+from bot.utils.set_bot_commands import set_default_commands
+from bot.utils.db_api.models_peewee import create_database
+from bot import (
+    middlewares,
+    filters,
+    handlers
+)
 
 from aiogram import (
     Dispatcher,

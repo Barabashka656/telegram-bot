@@ -63,7 +63,7 @@ pipenv shell
 ```shell
 pipenv sync
 ```
-1. Rename the **[.env.dist](https://github.com/Barabashka656/super-bot/blob/main/.env.dist)** file to **.env** and update it with your API keys
+1. Rename the **[.env.dist](.env.dist)** file to **.env** and update it with your API keys
 
 # Usage
 1. Run the bot:
@@ -75,7 +75,7 @@ python run.py
 # Env
 *(REQUIRED)*
 
-- TELEGRAM_API_TOKEN - Bot token from BotFather
+- TELEGRAM_API_TOKEN - Bot token from [BotFather](https://telegram.me/BotFather)
 - [OPEN_AI_API_KEY](https://platform.openai.com/account/api-keys) - 
 secret API key fro using chatGPT 
    
@@ -88,4 +88,4 @@ secret API key fro using chatGPT
 All contributions are welcome. Feel free to create a pull request or an issue.
 
 # License
-See the [LICENSE](https://github.com/Barabashka656/super-bot/blob/main/LICENSE) file for license rights and limitations (MIT).
+See the [LICENSE](LICENSE) file for license rights and limitations (MIT).

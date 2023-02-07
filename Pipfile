@@ -19,6 +19,8 @@ pyshorteners = "*"
 epicstore-api = "*"
 opencv-python = "*"
 openai = "*"
+pydantic = "*"
+geopy = "*"
 
 [dev-packages]
 flake8-bugbear = "*"
