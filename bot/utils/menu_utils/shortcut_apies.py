@@ -17,9 +17,6 @@ def tinyurl(url: str, create: bool = True) -> tuple:
         return (False, shortcut_object.tinyurl.expand(url))
     except ShorteningErrorException as e:
         return e.args
-    except Exception as e:
-        print("exception")
-        return e.args
 
 
 def chilpit(url: str, create: bool = True) -> tuple:
@@ -28,9 +25,6 @@ def chilpit(url: str, create: bool = True) -> tuple:
             return (False, shortcut_object.chilpit.short(url))
         return (False, shortcut_object.chilpit.expand(url))
     except ShorteningErrorException as e:
-        return e.args
-    except Exception as e:
-        print("exception")
         return e.args
 
 
@@ -41,9 +35,6 @@ def clckru(url: str, create: bool = True) -> tuple:
         return (False, 'error clckru cannot be expanded with alesha')
     except ShorteningErrorException as e:
         return e.args
-    except Exception as e:
-        print("exception")
-        return e.args
 
 
 def dagd(url: str, create: bool = True) -> tuple:
@@ -53,9 +44,6 @@ def dagd(url: str, create: bool = True) -> tuple:
         return (False, 'error dagd cannot be expanded with alesha')
     except ShorteningErrorException as e:
         return e.args
-    except Exception as e:
-        print("exception")
-        return e.args
 
 
 def isgd(url: str, create: bool = True, code: str | None = None) -> str:  # TODO(shortcut): ADD support for code
@@ -64,7 +52,4 @@ def isgd(url: str, create: bool = True, code: str | None = None) -> str:  # TODO
             return (False, shortcut_object.isgd.short(url))
         return (False, 'error isgd cannot be expanded with alesha')
     except ShorteningErrorException as e:
-        return e.args
-    except Exception as e:
-        print("exception")
         return e.args

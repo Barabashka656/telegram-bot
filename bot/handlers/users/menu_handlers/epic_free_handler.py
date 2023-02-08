@@ -2,7 +2,10 @@ import datetime
 
 from bot.loader import dp
 from bot.utils.db_api.models_peewee import (
-    db, EpicFreeGame, EpicMail, Utility
+    db,
+    EpicFreeGame,
+    EpicMail,
+    Utility
 )
 from bot.keyboards.inline.menu_keyboards.menu_callback_datas\
     import start_menu_callback
@@ -14,7 +17,10 @@ from bot.keyboards.inline.menu_keyboards.menu_buttoms import (
 )
 
 from aiogram import types
-from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from aiogram.types import (
+    InlineKeyboardButton,
+    InlineKeyboardMarkup
+)
 
 
 @dp.callback_query_handler(start_menu_callback.filter(category="epic"))

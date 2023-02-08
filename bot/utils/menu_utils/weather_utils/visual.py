@@ -1,4 +1,3 @@
-from pprint import pprint
 import datetime
 
 from custom_bot_exceptions import InvalidResponseStatusCodeError

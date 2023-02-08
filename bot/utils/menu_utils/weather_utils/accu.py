@@ -1,5 +1,3 @@
-from pprint import pprint
-
 from data.config import ACCU_WEATHER_API
 from custom_bot_exceptions import InvalidResponseStatusCodeError
 

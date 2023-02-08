@@ -1,5 +1,4 @@
 from zoneinfo import ZoneInfo
-from pprint import pprint
 import datetime
 
 from bot.loader import scheduler
