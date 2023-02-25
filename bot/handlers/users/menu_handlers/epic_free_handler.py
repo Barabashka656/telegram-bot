@@ -36,7 +36,7 @@ async def show_epic_free_games(call: types.CallbackQuery):
 
             epic_store_keyboard.insert(epic_link)
 
-            if games_counter == len(games):
+            if games_counter == len(games) - 1:  # last game
                 epic_store_keyboard.insert(menu_newmsg_buttom)
                 if EpicMail.get_or_none(user_id=call.from_user.id):
                     epic_store_keyboard.insert(epic_cancel_newmsg_buttom)

@@ -7,3 +7,4 @@ from .shortcut_states import (
     ShortcutScanState
 )
 from .download_states import YtDlState
+from .weather_states import WeatherState

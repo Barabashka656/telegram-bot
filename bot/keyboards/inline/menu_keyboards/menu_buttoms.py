@@ -1,4 +1,4 @@
-from bot.data.config import (
+from bot.data.config import (           # TODO(rename): file
     DISCORD_INVITE_LINK,
     TELEGRAM_LINK
 )
@@ -28,8 +28,6 @@ callback_data   -->
 +---------------+------------+
 |   settings    |     3      |
 +---------------+------------+
-
-
 
 '''
 # message.answer
@@ -96,11 +94,12 @@ menu_newmsg_back_keyboard = InlineKeyboardMarkup().insert(menu_newmsg_buttom)
 
 menu_editmsg_back_keyboard = InlineKeyboardMarkup().insert(menu_editmsg_buttom)
 
+
 first_level_menu_keyboard = InlineKeyboardMarkup(row_width=2,
                                                  inline_keyboard=[[
                                                      InlineKeyboardButton(
-                                                         text="переводчик",
-                                                         callback_data="menu:1:translator"
+                                                         text="погода",
+                                                         callback_data="menu:1:weather"
                                                      ),
                                                      InlineKeyboardButton(
                                                          text="Бесплатные epic игры",
@@ -121,8 +120,8 @@ first_level_menu_keyboard = InlineKeyboardMarkup(row_width=2,
                                                          callback_data="menu:1:youtube"
                                                      ),
                                                      InlineKeyboardButton(
-                                                         text="soon",
-                                                         callback_data="menu:1:soon"
+                                                         text="переводчик",
+                                                         callback_data="menu:1:translator"
                                                      )
                                                  ], [
                                                      InlineKeyboardButton(
@@ -143,9 +142,7 @@ first_level_menu_keyboard = InlineKeyboardMarkup(row_width=2,
                                                          text="Настройки",
                                                          callback_data="menu:1:settings"
                                                      )
-                                                 ],
-
-                                                 ])
+                                                 ]])
 
 
 translator = InlineKeyboardMarkup()

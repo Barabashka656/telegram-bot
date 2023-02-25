@@ -18,22 +18,36 @@ class WindGust(BaseModel):
     speed: Unit | None = Field(alias='Speed')
 
 
+# only for wind
+class Direction(BaseModel):
+    degrees: int | None = Field(alias='Degrees')
+    localized: str | None = Field(alias='Localized')
+    english: str | None = Field(alias='English')
+
+
+class Wind(BaseModel):      # TODO(remake): to BaseWeather
+    direction: Direction | None = Field(alias='Direction')
+    speed: Unit | None = Field(alias='Speed')
+
+
 BASE_MATH_ROUND_FIELDS = (
     'humidity', 'dew_point',
     'temperature', 'wind_speed',
     'wind_dir', 'cloud_cover',
     'visibility', 'wind_gust',
-    'pressure'
+    'pressure', 'apparent_temperature',
+    'wind'
 )
 
 BASE_TEMP_CONVERT_FIELDS = (
-    'dew_point', 'temperature'
+    'dew_point', 'temperature',
+    'apparent_temperature'
 )
 
 
 class BaseWeather(BaseModel):
     # "Weather class designed to work with different weather apis"
-    def __init__(self, **data):
+    def __init__(cls, **data):
         super().__init__(
             # tomorrow or visual or accu
             temperature=data.pop("temperature", None)
@@ -51,11 +65,16 @@ class BaseWeather(BaseModel):
             wind_gust=data.pop("windGust", None)
                 or data.pop("windgust", None) or data.pop("WindGust", None),
 
+            wind=data.pop("Wind", None),
+
             cloud_cover=data.pop("cloudCover", None)
                 or data.pop("cloudcover", None) or data.pop("CloudCover", None),
 
             pressure=data.pop("pressureSeaLevel", None)
                 or data.pop("pressure", None) or data.pop("Pressure", None),
+
+            humidity=data.pop("humidity", None)
+                or data.pop("RelativeHumidity", None),  # (tommorow\visual) and accu
 
             visibility=data.pop("visibility", None)   # tommorow and visual
                 or data.pop("Visibility", None),
@@ -68,6 +87,7 @@ class BaseWeather(BaseModel):
     wind_speed: str | None
     wind_dir: str | None
     wind_gust: str | WindGust | None
+    wind: Wind | None
     cloud_cover: str | None
     pressure: str | Unit | None
 
@@ -75,8 +95,8 @@ class BaseWeather(BaseModel):
     visibility: str | Unit | None
 
     @validator(*BASE_MATH_ROUND_FIELDS)
-    def math_round_valid(self, number: int | float | str
-                         | Unit | WindGust | None) -> int | Unit | WindGust | None:
+    def math_round_valid(cls, number: int | float | str
+                         | Unit | WindGust | Wind | None) -> int | Unit | WindGust | Wind | None:
 
         # if number is None return nothing
         match number:
@@ -94,7 +114,7 @@ class BaseWeather(BaseModel):
                 rounded_value = int(f_number + (0.5 if f_number > 0 else -0.5))
                 number.imperial.value = rounded_value
                 return number
-            case WindGust():
+            case WindGust() | Wind():
                 # metic
                 f_number = float(number.speed.metric.value)
                 rounded_value = int(f_number + (0.5 if f_number > 0 else -0.5))
@@ -107,7 +127,7 @@ class BaseWeather(BaseModel):
                 return number
 
     @validator(*BASE_TEMP_CONVERT_FIELDS)
-    def temp_convert_valid(self, temp: int | Unit | None) -> str | Unit | None:
+    def temp_convert_valid(cls, temp: str | Unit | None) -> str | Unit | None:
         match temp:
             case Unit():
 
@@ -123,63 +143,19 @@ class BaseWeather(BaseModel):
                     temp.imperial.value = '+' + str(i_temp)
                 temp.imperial.value = str(i_temp)
                 return temp
-            case int():
+            case str():
                 if temp > 0:
                     return '+' + str(temp)
                 return str(temp)
 
 
-class TommorowWeather(BaseWeather):
-    cloud_base: float | None = Field(alias="cloudBase", default_factory=None)
-    cloud_ceiling: float | None = Field(alias='cloudCeiling')
-
-    fire_index: int | None = Field(alias='fireIndex')
-    flood_index: int | None = Field(alias='floodIndex')
-
-    precipitation_type: int | None = Field(alias='precipitationType')
-    pressure_surface_level: float | None = Field(alias='pressureSurfaceLevel')
-    snow_intensity: int | None = Field(alias='snowIntensity')
-    stream_flow: float | None = Field(alias='streamFlow')
-
-    tree_index: int | None = Field(alias='treeIndex')
-    uv_index: int | None = Field(alias='uvIndex')
-    visibility: float | None = Field(alias='visibility')
-
-
-class VisualWeather(BaseWeather):
-    conditions: str | None = Field(alias="conditions", default_factory=None)
-    # icon: str | None = Field(alias="icon", default_factory=None) TODO(visual): visual icon
-
-    sunrise: str | None = Field(alias="sunrise", default_factory=None)
-    sunset: str | None = Field(alias="sunset", default_factory=None)
-    moonphase: str | None = Field(alias="moonphase", default_factory=None)
-    precip: str | None = Field(alias="precip", default_factory=None)
-    uv_index: float | None = Field(alias="uvindex", default_factory=None)
-    snow: str | None = Field(alias="snow", default_factory=None)
-    snowdepth: float | None = Field(alias="snowdepth", default_factory=None)
-    solarenergy: float | None = Field(alias="solarenergy", default_factory=None)
-    solarradiation: float | None = Field(alias="solarradiation", default_factory=None)
-
-
-# only for wind
-class Direction(BaseModel):
-    degrees: int | None = Field(alias='Degrees')
-    localized: str | None = Field(alias='Localized')
-    english: str | None = Field(alias='English')
-
-
-class Wind(BaseModel):
-    direction: Direction | None = Field(alias='Direction')
-    speed: Unit | None = Field(alias='Speed')
-
-
 # only for  PressureTendency
 class PressureTendency(BaseModel):
-    localized_text: int | None = Field(alias='LocalizedText')
+    localized_text: str | None = Field(alias='LocalizedText')
     code: str | None = Field(alias='Code')
 
     @validator('code')
-    def pressure_valid(self, code: str | None) -> str | None:
+    def pressure_valid(cls, code: str | None) -> str | None:
         match code:
             case "S":
                 return "Давление устойчиво"
@@ -207,5 +183,36 @@ class AccuWeather(BaseWeather):
 
     wind_сhill_temperature: Unit | None = Field(alias='WindChillTemperature', default_factory=None)
     precip1hr: Unit | None = Field(alias='Precip1hr', default_factory=None)
-    wind: Wind | None = Field(alias='Wind', default_factory=None)
     link: str | None = Field(alias='Link', default_factory=None)
+
+
+class VisualWeather(BaseWeather):
+    conditions: str | None = Field(alias="conditions", default_factory=None)
+    # icon: str | None = Field(alias="icon", default_factory=None) TODO(visual): visual icon
+
+    sunrise: str | None = Field(alias="sunrise", default_factory=None)
+    sunset: str | None = Field(alias="sunset", default_factory=None)
+    moonphase: str | None = Field(alias="moonphase", default_factory=None)
+    precip: str | None = Field(alias="precip", default_factory=None)
+    uv_index: float | None = Field(alias="uvindex", default_factory=None)
+    snow: str | None = Field(alias="snow", default_factory=None)
+    snowdepth: float | None = Field(alias="snowdepth", default_factory=None)
+    solarenergy: float | None = Field(alias="solarenergy", default_factory=None)
+    solarradiation: float | None = Field(alias="solarradiation", default_factory=None)
+
+
+class TommorowWeather(BaseWeather):
+    cloud_base: float | None = Field(alias="cloudBase", default_factory=None)
+    cloud_ceiling: float | None = Field(alias='cloudCeiling')
+
+    fire_index: int | None = Field(alias='fireIndex')
+    flood_index: int | None = Field(alias='floodIndex')
+
+    precipitation_type: int | None = Field(alias='precipitationType')
+    pressure_surface_level: float | None = Field(alias='pressureSurfaceLevel')
+    snow_intensity: int | None = Field(alias='snowIntensity')
+    stream_flow: float | None = Field(alias='streamFlow')
+
+    tree_index: int | None = Field(alias='treeIndex')
+    uv_index: int | None = Field(alias='uvIndex')
+    visibility: float | None = Field(alias='visibility')

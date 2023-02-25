@@ -26,7 +26,6 @@
 ### This is a Telegram Bot built using [Aiogram](https://github.com/aiogram/aiogram#aiogram) library in Python. 
 ### The bot can perform the following tasks:
 
-
 - translate text (soon)
 - Notify about new free games on Epic Games Store
 - Generate QR codes

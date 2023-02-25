@@ -4,7 +4,8 @@ from peewee import (
     IntegerField,
     CharField,
     DateTimeField,
-    ForeignKeyField
+    ForeignKeyField,
+    BooleanField
 )
 import datetime
 from bot.data.config import DATABASE_DIR
@@ -78,12 +79,48 @@ class ShortcutTable(BaseModel):
         order_by = 'user_id'
 
 
+class VipUser(BaseModel):
+    user_id = ForeignKeyField(model=User)
+    is_weather_premium = BooleanField(default=False)
+
+    class Meta:
+        db_table = 'VipUser'
+        order_by = 'user_id'
+
+
+class WeatherTable(BaseModel):
+    user_id = ForeignKeyField(model=User)
+
+    current_weather_service = CharField(null=True)
+    current_weather_city = CharField(null=True)
+
+    weather_forecast_service = CharField(null=True)
+    weather_forecast_city = CharField(null=True)
+
+    vip_user_id = ForeignKeyField(model=VipUser)
+
+    class Meta:
+        db_table = 'WeatherTable'
+        order_by = 'user_id'
+
+
+class WeatherCityId(BaseModel):
+    city_id = CharField()
+    city_name = CharField()
+
+    class Meta:
+        db_table = 'WeatherCityId'
+        order_by = 'city_id'
+
+
 def create_database():
     with db:
         models = [User, YoutubeDlInfo,
                   EpicFreeGame, EpicMail,
-                  Utility, ShortcutTable
+                  Utility, ShortcutTable,
+                  VipUser, WeatherTable,
+                  WeatherCityId
                   ]
 
         db.create_tables(models)
-        # db.create_tables([EpicFreeGame])
+        # db.create_tables([WeatherCityId])

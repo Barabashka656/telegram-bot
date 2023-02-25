@@ -1,7 +1,10 @@
 import os.path
 
 from bot.loader import dp, scheduler
-from bot.data.config import DATABASE_DIR
+from bot.data.config import (
+    DATABASE_DIR,
+    UPDATE_DATABASE
+)
 from bot.utils.set_scheduler import set_bot_schedule
 from bot.utils.set_bot_commands import set_default_commands
 from bot.utils.db_api.models_peewee import create_database
@@ -30,8 +33,7 @@ def check_database_exist(update_database: bool):
 async def on_startup(dp: Dispatcher):
     await set_all_default_commands(dp)
 
-    update_database = False
-    check_database_exist(update_database)
+    check_database_exist(True)
 
     set_bot_schedule(scheduler)
 
