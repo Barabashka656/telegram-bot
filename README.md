@@ -76,7 +76,7 @@ python run.py
 
 - TELEGRAM_API_TOKEN - Bot token from [BotFather](https://telegram.me/BotFather)
 - [OPEN_AI_API_KEY](https://platform.openai.com/account/api-keys) - 
-secret API key fro using chatGPT 
+secret API key for using chatGPT 
    
 *(OPTIONAL)*
 
