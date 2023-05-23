@@ -33,7 +33,7 @@ def check_database_exist(update_database: bool):
 async def on_startup(dp: Dispatcher):
     await set_all_default_commands(dp)
 
-    check_database_exist(True)
+    check_database_exist(UPDATE_DATABASE)
 
     set_bot_schedule(scheduler)
 

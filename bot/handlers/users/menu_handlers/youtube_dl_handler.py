@@ -8,7 +8,10 @@ from bot.utils.db_api.models_peewee import (
 )
 from bot.utils.menu_utils import youtube_download
 from bot.keyboards.inline.menu_keyboards.menu_callback_datas import start_menu_callback
-from bot.keyboards.inline.menu_keyboards.menu_buttoms import menu_newmsg_back_keyboard
+from bot.keyboards.inline.menu_keyboards.menu_buttoms import (
+    menu_newmsg_back_keyboard,
+    menu_editmsg_back_keyboard
+)
 from bot.states.menu_states import YtDlState
 
 from aiogram.dispatcher.storage import FSMContext
@@ -19,7 +22,8 @@ from aiogram import types
 async def set_yt_dlp_state(call: types.CallbackQuery):
     await call.answer(cache_time=0)
     await call.message.delete()
-    await call.message.answer(text="Введите ссылку на ютуб видео, которое надо скачать")
+    await call.message.answer(text="Введите ссылку на ютуб видео, которое надо скачать",
+                              reply_markup=menu_editmsg_back_keyboard)
     await YtDlState.ytdl_data.set()
 
 

@@ -3,3 +3,6 @@ __pycache__
 bot_database.db
 setup.cfg
 .vscode
+weather
+file2.txt
+test.py

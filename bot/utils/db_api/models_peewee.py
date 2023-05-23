@@ -48,7 +48,8 @@ class EpicFreeGame(BaseModel):
     key_image_url = CharField()
     start_date = DateTimeField(null=True)
     end_date = DateTimeField(null=True)
-    original_price = CharField()
+    viewable_date = DateTimeField(null=True)
+    original_price = CharField(null=True)
 
     class Meta:
         db_table = 'EpicFreeGame'
@@ -123,4 +124,4 @@ def create_database():
                   ]
 
         db.create_tables(models)
-        # db.create_tables([WeatherCityId])
+        print('database was correctly updated')

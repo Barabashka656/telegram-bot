@@ -1,5 +1,6 @@
-from bot.loader import dp
+import re
 
+from bot.loader import dp
 from bot.keyboards.inline.menu_keyboards.menu_callback_datas\
     import start_menu_callback
 from bot.keyboards.inline.menu_keyboards.menu_buttoms import (
@@ -37,13 +38,20 @@ async def set_shortcut_state(call: types.CallbackQuery):
 
 @dp.message_handler(state=ShortcutGenState.shortcut_gen_data)
 async def send_shortcut_url(message: types.Message, state: FSMContext):
-    await message.delete()
+    url = re.search("(?P<url>https?://[^\s]+)", message.text)
+    if url:
+        url = url.group()
+    else:
+        answer_text = "я не могу найти ссылку в вашем сообщении"
+        await message.answer(text=answer_text, reply_markup=menu_editmsg_back_keyboard)
+        await state.finish()
+        return
 
     with db:
         source = ShortcutTable.get(user_id=message.from_user.id).shortcut_source
 
     shortcut_func = getattr(shortcut_apies, source)
-    shortcut_url = shortcut_func(message.text, True)
+    shortcut_url = shortcut_func(url, True)
     if shortcut_url[0]:
         print(shortcut_url)
         answer_text = "я не могу сократить данную ссылку("

@@ -1,3 +1,5 @@
+import re
+
 from bot.loader import dp
 
 from bot.keyboards.inline.menu_keyboards.menu_callback_datas\
@@ -25,7 +27,14 @@ async def set_shortcut_state(call: types.CallbackQuery):
 @dp.message_handler(state=ShortcutScanState.shortcut_scan_data)
 async def send_shortcut_url(message: types.Message, state: FSMContext):
     await message.delete()
-    print('scan')
+    url = re.search("(?P<url>https?://[^\s]+)", message.text)
+    if url:
+        url = url.group()
+    else:
+        answer_text = "я не могу найти ссылку в вашем сообщении"
+        await message.answer(text=answer_text, reply_markup=menu_editmsg_back_keyboard)
+        await state.finish()
+        return
     error = False
     shortcut_decode = shortcut_apies.shortcut_services[0:1]
     try:
@@ -34,7 +43,7 @@ async def send_shortcut_url(message: types.Message, state: FSMContext):
     except Exception as e:
         print("short_scan_err", e.args)
         print(e)
-        print(shortcut_url)
+ 
         error = True
         try:
             shortcut_func = getattr(shortcut_apies, shortcut_decode[1])
@@ -51,8 +60,11 @@ async def send_shortcut_url(message: types.Message, state: FSMContext):
             error = False
 
     if not error:
-        text = f"<code>{message.text}</code>\n\
-                                \n------------------------>\
-                                    \n\n<code>{shortcut_url[1]}</code>"
+        if message.text == shortcut_url[1]:
+            text = 'данная ссылка не была сокращенной'
+        else:
+            text = f"<code>{message.text}</code>\n\
+                                    \n------------------------>\
+                                        \n\n<code>{shortcut_url[1]}</code>"
         await message.answer(text=text, reply_markup=menu_newmsg_back_keyboard, parse_mode='HTML')
         await state.finish()

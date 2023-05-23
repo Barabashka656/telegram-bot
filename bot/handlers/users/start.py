@@ -5,7 +5,10 @@ from bot.utils.db_api.models_peewee import (
     db,
     User
 )
-from bot.states.menu_states import QrScanState
+from bot.states.menu_states import (
+    QrScanState,
+    YtDlState
+)
 
 
 from aiogram.dispatcher.storage import FSMContext
@@ -32,14 +35,8 @@ async def bot_start(call: types.CallbackQuery):
 
 
 @dp.callback_query_handler(start_menu_callback.filter(category="menu", menu_level="2"))
-async def bot_start_edit(call: types.CallbackQuery):
-    await call.answer(cache_time=0)
-    await call.message.edit_text(text="Выбирай категорию!", reply_markup=first_level_menu_keyboard)
-
-
-@dp.callback_query_handler(start_menu_callback.filter(category="menu_qrScanState", menu_level="2"),
-                           state=QrScanState.qr_scan_data)
-async def bot_start_qr_state(call: types.CallbackQuery, state: FSMContext):
+@dp.callback_query_handler(state=[YtDlState.ytdl_data, QrScanState.qr_scan_data])
+async def bot_start_edit(call: types.CallbackQuery, state: FSMContext):
     await call.answer(cache_time=0)
     await state.finish()
     await call.message.edit_text(text="Выбирай категорию!", reply_markup=first_level_menu_keyboard)
