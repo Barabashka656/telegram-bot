@@ -34,6 +34,6 @@ async def handle_wrong_update(message: types.Message):  # TODO(rename): rename f
 async def send_qr_data(message: types.Message, state: FSMContext):
     filedir = STORAGE_DIR + f"{message.from_user.id}.png"
     await message.photo[-1].download(destination_file=filedir)
-    text = scan_qrcode(filedir)
-    await message.answer(text=text, reply_markup=menu_newmsg_back_keyboard)
+    answer_text = scan_qrcode(filedir)
+    await message.answer(text=answer_text, reply_markup=menu_newmsg_back_keyboard)
     await state.finish()

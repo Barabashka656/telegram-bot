@@ -7,7 +7,8 @@ from bot.utils.db_api.models_peewee import (
 )
 from bot.states.menu_states import (
     QrScanState,
-    YtDlState
+    YtDlState,
+    ChatGptState
 )
 
 
@@ -29,8 +30,10 @@ async def bot_start_new(message: types.Message):
 
 
 @dp.callback_query_handler(start_menu_callback.filter(category="menu", menu_level="1"))
-async def bot_start(call: types.CallbackQuery):
+@dp.callback_query_handler(state=ChatGptState.all_states)
+async def bot_start(call: types.CallbackQuery, state: FSMContext):
     await call.answer(cache_time=0)
+    await state.finish()
     await call.message.answer(text="Выбирай категорию!", reply_markup=first_level_menu_keyboard)
 
 

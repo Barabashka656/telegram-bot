@@ -8,3 +8,4 @@ from .shortcut_states import (
 )
 from .download_states import YtDlState
 from .weather_states import WeatherState
+from .chat_gpt_states import ChatGptState

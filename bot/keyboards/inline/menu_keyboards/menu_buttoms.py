@@ -120,6 +120,15 @@ first_level_menu_keyboard = InlineKeyboardMarkup(row_width=2,
                                                      )
                                                  ], [
                                                      InlineKeyboardButton(
+                                                         text="ChatGPT (3.5 turbo)",
+                                                         callback_data="menu:1:chat_gpt"
+                                                     ),
+                                                     InlineKeyboardButton(
+                                                         text="coming soon",
+                                                         callback_data="menu:1:soon"
+                                                     )
+                                                 ], [
+                                                     InlineKeyboardButton(
                                                          text="Генерация сокращённых ссылок",
                                                          callback_data="menu:1:shortcut_gen"
                                                      ),
@@ -137,6 +146,7 @@ first_level_menu_keyboard = InlineKeyboardMarkup(row_width=2,
                                                          text="Настройки",
                                                          callback_data="menu:1:settings"
                                                      )
+                                                 
                                                  ]])
 
 

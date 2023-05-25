@@ -61,10 +61,10 @@ async def send_shortcut_url(message: types.Message, state: FSMContext):
 
     if not error:
         if message.text == shortcut_url[1]:
-            text = 'данная ссылка не была сокращенной'
+            answer_text = 'данная ссылка не была сокращенной'
         else:
-            text = f"<code>{message.text}</code>\n\
+            answer_text = f"<code>{message.text}</code>\n\
                                     \n------------------------>\
                                         \n\n<code>{shortcut_url[1]}</code>"
-        await message.answer(text=text, reply_markup=menu_newmsg_back_keyboard, parse_mode='HTML')
+        await message.answer(text=answer_text, reply_markup=menu_newmsg_back_keyboard, parse_mode='HTML')
         await state.finish()
