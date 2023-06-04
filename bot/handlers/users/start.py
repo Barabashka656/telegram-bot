@@ -8,7 +8,8 @@ from bot.utils.db_api.models_peewee import (
 from bot.states.menu_states import (
     QrScanState,
     YtDlState,
-    ChatGptState
+    ChatGptState,
+    WeatherState
 )
 
 
@@ -30,7 +31,7 @@ async def bot_start_new(message: types.Message):
 
 
 @dp.callback_query_handler(start_menu_callback.filter(category="menu", menu_level="1"))
-@dp.callback_query_handler(state=ChatGptState.all_states)
+@dp.callback_query_handler(state=[ChatGptState.all_states, WeatherState.city_data])
 async def bot_start(call: types.CallbackQuery, state: FSMContext):
     await call.answer(cache_time=0)
     await state.finish()

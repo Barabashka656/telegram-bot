@@ -12,10 +12,10 @@ class IsCurrentCityNotInDatabase(BoundFilter):
     async def check(self, call: types.CallbackQuery) -> bool:
         with db:
             user = WeatherTable.select(
-                WeatherTable.current_weather_city
+                WeatherTable.city_name
             ).where(
                 (WeatherTable.user_id == call.message.chat.id)
-                & WeatherTable.current_weather_city.is_null(False)
+                & WeatherTable.city_name.is_null(False)
             )
 
             return not len(user)

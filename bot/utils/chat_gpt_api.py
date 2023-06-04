@@ -15,7 +15,6 @@ def update(messages: list, role, content):
     return messages
 
 def get_response(messages):
-   
     response = openai.ChatCompletion.create(
         model = "gpt-3.5-turbo",
         messages = messages,

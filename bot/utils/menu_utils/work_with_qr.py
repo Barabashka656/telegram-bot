@@ -10,7 +10,8 @@ from pyzbar import pyzbar  # https://www.microsoft.com/en-US/download/details.as
 def generate_qrcode(data: str) -> types.InputFile:
     buf = io.BytesIO()
     qrcode.make(data).save(buf, format='PNG')
-    buf.seek(0)  # You need to seek back to the beginning of the file after writing the initial in memory file...
+    # You need to seek back to the beginning of the file after writing the initial in memory file...
+    buf.seek(0)  
     return types.InputFile(buf, "qrcode.png")
 
 
@@ -19,5 +20,3 @@ def scan_qrcode(filedir: str) -> str:
     barcodes = pyzbar.decode(img)
     os.remove(filedir)
     return barcodes[0].data.decode()
-
-# TODO(make qr): advanced qr //pip qrcode

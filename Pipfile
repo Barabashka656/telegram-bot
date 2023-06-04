@@ -19,6 +19,7 @@ opencv-python = "*"
 openai = "*"
 pydantic = "*"
 yt-dlp = "*"
+geopy = "*"
 
 [dev-packages]
 

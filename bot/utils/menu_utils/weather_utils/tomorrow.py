@@ -1,32 +1,20 @@
-import requests
-
 from bot.data.config import TOMORROW_IO_API_KEY
 from bot.utils.custom_bot_exceptions import InvalidResponseStatusCodeError
 
+import aiohttp
 
-def get_current_tomorrow_weather(lat: float, lon: float) -> dict | InvalidResponseStatusCodeError:
-    url_start = f"https://api.tomorrow.io/v4/timelines?location={str(lat)}%2C%20{str(lon)}&"
-    url_end = f"units=metric&timesteps=current&apikey={TOMORROW_IO_API_KEY}"
 
-    data_fields = ["temperature", "temperatureApparent",
-                   "dewPoint", "humidity",
-                   "windSpeed", "windDirection",
-                   "windGust", "pressureSurfaceLevel",
-                   "pressureSeaLevel", "cloudCover",
-                   "visibility", "cloudBase",
-                   "cloudCeiling", "treeIndex",
-                   "fireIndex", "snowIntensity",
-                   "precipitationType", "uvIndex",
-                   "floodIndex", "streamFlow"
-                   ]
+async def get_current_tomorrow_weather(city: str) -> dict | InvalidResponseStatusCodeError:
+    url = f"https://api.tomorrow.io/v4/weather/realtime?location={city}&apikey={TOMORROW_IO_API_KEY}"
 
-    for field in data_fields:
-        url_start = url_start + "fields=" + field + "&"
-
-    url = url_start + url_end
-    response = requests.get(url=url)
-    match response.status_code:
-        case 200:
-            return response.json().get("data").get("timelines")[0].get("intervals")[0].get("values")
-        case _:
-            raise InvalidResponseStatusCodeError(response)
+   
+    async with aiohttp.ClientSession() as client:
+        async with client.get(url=url) as response:
+            match response.status:
+                case 200:
+                    data = await response.json()
+                    print(data)
+                    print('asfd')
+                    return data.get("data").get("values")
+                case _:
+                    raise InvalidResponseStatusCodeError(response)

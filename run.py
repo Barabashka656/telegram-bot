@@ -25,6 +25,7 @@ async def set_all_default_commands(dp: Dispatcher):
 
 
 def check_database_exist(update_database: bool):
+    update_database = True
     if not os.path.exists(DATABASE_DIR) \
        or update_database:
         create_database()

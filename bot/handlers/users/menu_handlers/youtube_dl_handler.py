@@ -28,7 +28,7 @@ async def set_yt_dlp_state(call: types.CallbackQuery):
 
 
 @dp.message_handler(state=YtDlState.ytdl_data)
-async def send_video(message: types.Message, state: FSMContext):
+async def send_yt_video(message: types.Message, state: FSMContext):
 
     with db:
         yt = YoutubeDlInfo.get_or_none(user_id=message.from_user.id, yt_url=message.text)

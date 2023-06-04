@@ -5,7 +5,8 @@ from peewee import (
     CharField,
     DateTimeField,
     ForeignKeyField,
-    BooleanField
+    BooleanField,
+    FloatField
 )
 import datetime
 from bot.data.config import DATABASE_DIR
@@ -81,7 +82,7 @@ class ShortcutTable(BaseModel):
 
 
 class VipUser(BaseModel):
-    user_id = ForeignKeyField(model=User)
+    user_id = ForeignKeyField(model=User, field='user_id')
     is_weather_premium = BooleanField(default=False)
 
     class Meta:
@@ -89,29 +90,27 @@ class VipUser(BaseModel):
         order_by = 'user_id'
 
 
+class WeatherCityId(BaseModel):
+    city_id = IntegerField(null=True)
+    city_name = CharField(null=True)
+
+    class Meta:
+        db_table = 'WeatherCityId'
+        order_by = 'city_name'
+
+
 class WeatherTable(BaseModel):
-    user_id = ForeignKeyField(model=User)
-
+    user_id = ForeignKeyField(model=User, field='user_id')
+    city_name = CharField(null=True)
+    
     current_weather_service = CharField(null=True)
-    current_weather_city = CharField(null=True)
-
     weather_forecast_service = CharField(null=True)
-    weather_forecast_city = CharField(null=True)
 
-    vip_user_id = ForeignKeyField(model=VipUser)
+    vip_user_id = ForeignKeyField(model=VipUser, field='user_id')
 
     class Meta:
         db_table = 'WeatherTable'
         order_by = 'user_id'
-
-
-class WeatherCityId(BaseModel):
-    city_id = CharField()
-    city_name = CharField()
-
-    class Meta:
-        db_table = 'WeatherCityId'
-        order_by = 'city_id'
 
 
 def create_database():

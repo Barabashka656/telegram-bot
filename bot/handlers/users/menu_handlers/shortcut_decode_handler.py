@@ -44,7 +44,7 @@ async def send_shortcut_url(message: types.Message, state: FSMContext):
         print("short_scan_err", e.args)
         print(e)
  
-        error = True
+        
         try:
             shortcut_func = getattr(shortcut_apies, shortcut_decode[1])
             shortcut_url = shortcut_func(message.text, False)
@@ -52,12 +52,11 @@ async def send_shortcut_url(message: types.Message, state: FSMContext):
             print("short_scan_err2", e.args)
             print(e)
             print(shortcut_url)
+            error = True
             answer_text = "я не могу расшифровать данную ссылку("
             await message.answer(text=answer_text,
                                  reply_markup=menu_editmsg_back_keyboard)
             await state.finish()
-        else:
-            error = False
 
     if not error:
         if message.text == shortcut_url[1]:

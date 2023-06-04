@@ -1,12 +1,14 @@
-from bot.loader import dp
+import typing
 
+from bot.loader import dp
 from bot.keyboards.inline.menu_keyboards.menu_callback_datas\
     import start_menu_callback
 from bot.keyboards.inline.menu_keyboards.weather_keyboards import (
     first_level_weather_keyboard,
     current_weather_choose_service_keyboard,
-    accu_weather_keyboard
+    create_weather_keyboard
 )
+from bot.keyboards.inline.menu_keyboards.menu_buttoms import menu_newmsg_back_keyboard
 from bot.utils.db_api.models_peewee import (
     db,
     WeatherTable,
@@ -14,11 +16,10 @@ from bot.utils.db_api.models_peewee import (
     VipUser
 )
 from bot.states.menu_states import WeatherState
-from bot.utils.menu_utils.weather_utils import (
-    AccuWeather,
-    get_city_id,
-    get_current_accu_weather,
-    processing
+from bot.utils.menu_utils.weather_utils.weather_processing import weather_processing_overview
+from bot.utils.menu_utils.weather_utils.get_current_weather_util import (
+    get_current_weather,
+    WeatherHandledTuple
 )
 from bot.filters import (
     IsAccuWeatherFilter,
@@ -28,14 +29,21 @@ from bot.filters import (
     IsFirstCurrentWeatherUseFilter,
     IsCurrentCityNotInDatabase
 )
+from bot.utils.custom_bot_exceptions import (
+    InvalidWeatherServiceError,
+    InvalidResponseStatusCodeError,
+    InvalidCityNameError
+)
 
-from aiogram.dispatcher.storage import FSMContext
+import asyncio
 from aiogram import types
+from aiogram.dispatcher.storage import FSMContext
 
 
+@dp.callback_query_handler(start_menu_callback.filter(category="update_db_with_current_service", menu_level="2"))
 @dp.callback_query_handler(start_menu_callback.filter(category="current_weather", menu_level="2"),
                            IsFirstCurrentWeatherUseFilter())
-async def first_current_weather_use_handler(call: types.CallbackQuery):  # TODO(rename): func
+async def first_current_weather_use_handler(call: types.CallbackQuery):
     await call.answer(cache_time=0)
 
     answer_text = "Выберите сервис, который будет предоставлять вам погоду\n\n"\
@@ -48,112 +56,118 @@ async def first_current_weather_use_handler(call: types.CallbackQuery):  # TODO(
                                  parse_mode="Markdown",
                                  disable_web_page_preview=True)
 
-    await WeatherState.city_data.set()
 
-
-# Accu handlers ---------------------------------------------------------------------------------------
-
-@dp.callback_query_handler(start_menu_callback.filter(category="current_weather", menu_level="2"),
-                           IsAccuWeatherFilter(), IsCurrentCityNotInDatabase())
-async def weather_accu_handler(call: types.CallbackQuery):  # TODO(rename): func
+@dp.callback_query_handler(
+        start_menu_callback.filter(
+        category=["current_accu_setup", "current_visual_setup", "current_tomorrow_setup"], 
+        menu_level="3")
+    )
+async def current_weather_setup_handler(call: types.CallbackQuery):
     await call.answer(cache_time=0)
-    #    get_current_accu_weather()
-    await call.message.edit_text("Введите название города")
-    await WeatherState.city_data.set()
+    service = call.data.split('_')[1]
+    with db:
+        vip_user = VipUser.get_or_none(user_id=call.from_user.id)
+        if not vip_user:
+            vip_user = VipUser(user_id=call.from_user.id).save()
+            
+        user = WeatherTable.get_or_none(user_id=call.from_user.id)
+        answer_text = f'Вы выбрали сервис погоды "{service}"'
+        if user:
+            WeatherTable.update(
+                current_weather_service=service
+            ).where(WeatherTable.user_id == call.from_user.id
+            ).execute()
+            city = user.current_weather_service
+
+            if city:
+                return await call.message.edit_text(text=answer_text, reply_markup=first_level_weather_keyboard)
+        else:
+            WeatherTable(user_id=call.from_user.id,
+                         current_weather_service=service,
+                         vip_user_id=vip_user
+                         ).save()
+            
+    answer_text = f'Вы выбрали сервис погоды "{service}"'
+    await call.message.answer(text=answer_text)
+    await weather_city_handler(call=call, is_call_from_func=True)
+
+
+@dp.callback_query_handler(
+        start_menu_callback.filter(
+        category="current_weather",
+        menu_level="2"),
+        IsCurrentCityNotInDatabase()
+    )
+@dp.callback_query_handler(start_menu_callback.filter(category="update_db_with_current_city",
+                                                      menu_level="2"))
+async def weather_city_handler(call: types.CallbackQuery, is_call_from_func: bool = False):  
+    await call.answer(cache_time=0)
+    if is_call_from_func:
+        await call.message.answer("Введите название города")
+    else:
+        await call.message.edit_text("Введите название города")
+    await WeatherState.city_data.set() 
 
 
 @dp.message_handler(state=WeatherState.city_data)
-async def send_qr(message: types.Message, state: FSMContext):
-    city = message.text  # TODO(check): check city
+async def update_db_with_city(message: types.Message, state: FSMContext):
+    city = message.text  # TODO(check): check the city
     print(city)
     with db:
         WeatherTable.update(
-            current_weather_city=city
+            city_name=city
         ).where(
             WeatherTable.user_id == message.from_user.id
         ).execute()
 
     await state.finish()
 
+    answer_text = "Вы выбрали свой город"
+    await message.answer(text=answer_text, reply_markup=first_level_weather_keyboard)
 
-@dp.callback_query_handler(start_menu_callback.filter(category="current_weather", menu_level="2"),
-                           IsAccuWeatherFilter())
-async def weather_accu_handler2(call: types.CallbackQuery):  # TODO(rename): func
+
+# qweqwe
+@dp.callback_query_handler(start_menu_callback.filter(category="current_weather", menu_level="2"))
+async def weather_handler_overview(call: types.CallbackQuery, state: FSMContext): 
     await call.answer(cache_time=0)
-    with db:
-        user = WeatherTable.get_or_none(user_id=call.from_user.id)
-        city = user.current_weather_city
-        city_id = WeatherCityId.get_or_none(city_name=city)
-        if city_id:
-            city_id = city_id.city_id
-        else:
-            city_id = get_city_id(city)
-            WeatherCityId(
-                city_name=city,
-                city_id=city_id
-            ).save()
-
-    raw_accu_weather = get_current_accu_weather(city_id)
-    weather_object = AccuWeather(**raw_accu_weather)
+    
+    try:
+        weather_object: WeatherHandledTuple = await get_current_weather(call=call)
+    except InvalidWeatherServiceError as e:
+        print(e)
+        answer_text = 'Произошла ошибка (weather:error 210)'
+        return await call.message.edit_text(text=answer_text, 
+                                            reply_markup=menu_newmsg_back_keyboard)
+    except InvalidResponseStatusCodeError as e:
+        print(e)
+        answer_text = 'Произошла ошибка (weather:error 211)'
+        return await call.message.edit_text(text=answer_text, 
+                                            reply_markup=menu_newmsg_back_keyboard)
+    except InvalidCityNameError as e:
+        answer_text = 'Произошла ошибка (weather:error 213)' + f'\nгород "{e.message}" неверный'
+        WeatherTable.update(
+            city_name=None
+        ).where(WeatherTable.user_id == call.from_user.id).execute()
+        await call.message.answer(text=answer_text, reply_markup=menu_newmsg_back_keyboard)
+        await asyncio.sleep(0.3)
+        await weather_city_handler(call=call, is_call_from_func=True)
+        return 
+    
     print(weather_object)
 
-    weather_text = processing(weather_object, True)
-    keyboard = accu_weather_keyboard(weather_object.link)
+    
+    keyboard = create_weather_keyboard(weather_link=weather_object.accu_link)
+    
+    async with state.proxy() as data:
+        data['current_weather_detail'] = weather_object.detail
+    await call.message.edit_text(text=weather_object.overview, reply_markup=keyboard)
 
-    await call.message.edit_text(weather_text, reply_markup=keyboard)
 
-
-# accu_current_weather set up
-@dp.callback_query_handler(start_menu_callback.filter(category="current_accu_setup", menu_level="3"))
-async def accu_weather_setup_handler(call: types.CallbackQuery):  # TODO(rename): func
+@dp.callback_query_handler(start_menu_callback.filter(category="current_weather_detail"))
+async def weather_accu_handler_detail(call: types.CallbackQuery, state: FSMContext):  # TODO(rename): func
     await call.answer(cache_time=0)
-    service = "accu"
-    with db:
-        vip_user = VipUser.get_or_none(user_id=call.from_user.id)
-        if not vip_user:
-            vip_user = VipUser(user_id=call.from_user.id).save()
 
-        user = WeatherTable.get_or_none(user_id=call.from_user.id)
-        if not user:
-            WeatherTable(user_id=call.from_user.id,
-                         current_weather_service=service,
-                         vip_user_id=vip_user
-                         ).save()
-        else:
-            WeatherTable.update(
-                current_weather_service=service
-            ).where(WeatherTable.user_id == call.from_user.id)
-    answer_text = "Вы выбрали сервис погоды AccuWeather"
-    await call.message.edit_text(text=answer_text, reply_markup=first_level_weather_keyboard)
-
-
-# Visual handlers ---------------------------------------------------------------------------------------
-
-@dp.callback_query_handler(start_menu_callback.filter(category="current_weather", menu_level="2"),
-                           IsVisualWeatherFilter())
-async def weather_visual_handler(call: types.CallbackQuery):  # TODO(rename): func
-    await call.answer(cache_time=0)
-    await call.message.edit_text("3", reply_markup=first_level_weather_keyboard)
-
-
-# visual_current_weather set up
-@dp.callback_query_handler(start_menu_callback.filter(category="current_visual_setup", menu_level="3"))
-async def visual_weather_setup_handler(call: types.CallbackQuery):  # TODO(rename): func
-    await call.answer(cache_time=0)
-    await call.message.edit_text("3", reply_markup=first_level_weather_keyboard)
-
-
-# Tomorrow handlers --------------------------------------------------------------------------------------
-
-@dp.callback_query_handler(start_menu_callback.filter(category="current_weather", menu_level="2"),
-                           IsTomorrowWeatherFilter())
-async def weather_tomorrow_handler(call: types.CallbackQuery):  # TODO(rename): func
-    await call.answer(cache_time=0)
-    await call.message.edit_text("4", reply_markup=first_level_weather_keyboard)
-
-
-# tommorow_current_weather set up
-@dp.callback_query_handler(start_menu_callback.filter(category="current_tomorrow_setup", menu_level="3"))
-async def tommorow_weather_setup_handler(call: types.CallbackQuery):  # TODO(rename): func
-    await call.answer(cache_time=0)
-    await call.message.edit_text("4", reply_markup=first_level_weather_keyboard)
+    async with state.proxy() as data:
+        weather_text = data.get('current_weather_detail')
+        await call.message.edit_text(text=weather_text, reply_markup=menu_newmsg_back_keyboard)
+        await state.finish()
