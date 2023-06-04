@@ -17,7 +17,6 @@ class IsCurrentCityNotInDatabase(BoundFilter):
                 (WeatherTable.user_id == call.message.chat.id)
                 & WeatherTable.city_name.is_null(False)
             )
-
             return not len(user)
 
 

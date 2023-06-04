@@ -10,7 +10,7 @@ class UnitType(BaseModel):
 
 
 class Unit(BaseModel):
-    imperial: UnitType | None = Field(alias='Imperial') 
+    imperial: UnitType | None = Field(alias='Imperial')
     metric: UnitType | None = Field(alias='Metric')
 
 
@@ -88,7 +88,6 @@ class BaseWeather(BaseModel):
                 or data.pop("Visibility", None),
             **data,
         )
-        print(cls.uv_index, 'uv3')
 
     temperature: str | Unit | None
     apparent_temperature: str | Unit | None
@@ -103,9 +102,8 @@ class BaseWeather(BaseModel):
     visibility: str | Unit | None
 
     @validator(*BASE_MATH_ROUND_FIELDS, check_fields=False)
-    def math_round_valid(cls, number: int | str | Unit | WindGust 
-                                    | Wind | None) -> str | WindGust | Wind | None:
-        print(number, 'pip')
+    def math_round_valid(cls, number: int | str | Unit | WindGust
+                         | Wind | None) -> str | WindGust | Wind | None:
         # if number is None return nothing
         match number:
             case int() | str():
@@ -113,25 +111,24 @@ class BaseWeather(BaseModel):
                 return str(int(number + (0.5 if number > 0 else -0.5)))
             case Unit():
                 f_number = float(number.metric.value)
-                return str(int(f_number + (0.5 if f_number > 0 else -0.5)))   
+                return str(int(f_number + (0.5 if f_number > 0 else -0.5)))
             case WindGust() | Wind():
                 f_number = float(number.speed.metric.value)
                 return str(int(f_number + (0.5 if f_number > 0 else -0.5)))
 
     @validator(*BASE_TEMP_CONVERT_FIELDS, check_fields=False)
     def temp_convert_valid(cls, temp: str | None) -> str | None:
-        print(temp, 'kek')
         if int(temp) > 0:
             temp = '+' + str(temp)
         return str(temp) + ' C°'
-    
+
     @validator('wind_dir', check_fields=False)
     def accu_wind_dir_valid(cls, wind_dir: str | Wind | None) -> str | None:
         match wind_dir:
             case str():
                 print(wind_dir, 'wind_dir3')
                 wind_dir = float(wind_dir)
-                return str(int(wind_dir + (0.5 if wind_dir > 0 else -0.5))) 
+                return str(int(wind_dir + (0.5 if wind_dir > 0 else -0.5)))
             case Wind():
                 print('wind123', wind_dir)
                 return str(wind_dir.direction.degrees) + '° ' + wind_dir.direction.localized

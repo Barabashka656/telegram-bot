@@ -146,7 +146,6 @@ first_level_menu_keyboard = InlineKeyboardMarkup(row_width=2,
                                                          text="Настройки",
                                                          callback_data="menu:1:settings"
                                                      )
-                                                 
                                                  ]])
 
 

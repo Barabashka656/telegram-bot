@@ -11,7 +11,7 @@ def generate_qrcode(data: str) -> types.InputFile:
     buf = io.BytesIO()
     qrcode.make(data).save(buf, format='PNG')
     # You need to seek back to the beginning of the file after writing the initial in memory file...
-    buf.seek(0)  
+    buf.seek(0)
     return types.InputFile(buf, "qrcode.png")
 
 

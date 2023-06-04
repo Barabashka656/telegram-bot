@@ -43,8 +43,6 @@ async def send_shortcut_url(message: types.Message, state: FSMContext):
     except Exception as e:
         print("short_scan_err", e.args)
         print(e)
- 
-        
         try:
             shortcut_func = getattr(shortcut_apies, shortcut_decode[1])
             shortcut_url = shortcut_func(message.text, False)

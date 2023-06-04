@@ -1,6 +1,6 @@
 import datetime
 
-from bot.utils.menu_utils.epic_games_utils import manage_free_games
+from bot.utils.menu_utils.epic_games_utils.epic_games_api import manage_free_games
 from bot.utils.db_api.models_peewee import (
     db,
     Utility

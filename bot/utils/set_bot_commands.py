@@ -13,7 +13,6 @@ STARTING_COMMANDS = {
         BotCommand('start', "запустить бота"),
         BotCommand('help', "ПОМОГИТЕ!!")
     ]
-
 }
 
 

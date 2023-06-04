@@ -5,8 +5,7 @@ from peewee import (
     CharField,
     DateTimeField,
     ForeignKeyField,
-    BooleanField,
-    FloatField
+    BooleanField
 )
 import datetime
 from bot.data.config import DATABASE_DIR
@@ -102,7 +101,6 @@ class WeatherCityId(BaseModel):
 class WeatherTable(BaseModel):
     user_id = ForeignKeyField(model=User, field='user_id')
     city_name = CharField(null=True)
-    
     current_weather_service = CharField(null=True)
     weather_forecast_service = CharField(null=True)
 

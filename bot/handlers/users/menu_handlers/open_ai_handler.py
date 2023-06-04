@@ -27,7 +27,7 @@ async def set_gpt_state(call: types.CallbackQuery):
     await ChatGptState.chat_gpt_data1.set()
 
 
-@dp.message_handler(state=ChatGptState.chat_gpt_data1)  # TODO(GPT): funcs are the same (DRY) 
+@dp.message_handler(state=ChatGptState.chat_gpt_data1)  # TODO(GPT): funcs are the same (DRY)
 async def handle_first_gpt_state(message: types.Message, state: FSMContext):
     user_response = message.text
     if user_response == "/stop":
@@ -40,8 +40,7 @@ async def handle_first_gpt_state(message: types.Message, state: FSMContext):
         print(e)
         answer_text = 'Произошла ошибка (gpt:error 114)'
         return await message.answer(text=answer_text,
-                             reply_markup=menu_newmsg_back_keyboard)
-
+                                    reply_markup=menu_newmsg_back_keyboard)
 
     async with state.proxy() as data:
         data["messages"] = messages
@@ -55,7 +54,7 @@ async def handle_first_gpt_state(message: types.Message, state: FSMContext):
         await message.answer(text=answer_text,
                              reply_markup=menu_newmsg_back_keyboard)
         return await state.finish()
-    
+
 
 @dp.message_handler(state=ChatGptState.chat_gpt_data2)
 async def handle_second_gpt_state(message: types.Message, state: FSMContext):
@@ -70,12 +69,12 @@ async def handle_second_gpt_state(message: types.Message, state: FSMContext):
     answer_text = messages[-1].get('content')
     if answer_text:
         await previous_message.edit_text(text=answer_text,
-                                   reply_markup=menu_newmsg_back_keyboard)
+                                         reply_markup=menu_newmsg_back_keyboard)
         await ChatGptState.chat_gpt_data3.set()
     else:
         answer_text = 'Произошла ошибка (gpt:error 112)'
         await message.answer(text=answer_text,
-                                   reply_markup=menu_newmsg_back_keyboard)
+                             reply_markup=menu_newmsg_back_keyboard)
         return await state.finish()
 
 
@@ -84,18 +83,18 @@ async def handle_third_gpt_state(message: types.Message, state: FSMContext):
     user_response = message.text
     if user_response == "/stop":
         return await state.finish()
-    await message.answer("Подождите немного...")
+    previous_message = await message.answer("Подождите немного...")
     messages = await state.get_data("messages")
-    previous_message = messages = get_openai_response(user_response, messages)
+    messages = get_openai_response(user_response, messages)
     async with state.proxy() as data:
         data["messages"] = messages
     answer_text = messages[-1].get('content')
     if answer_text:
         await previous_message.edit_text(text=answer_text,
-                                   reply_markup=menu_newmsg_back_keyboard)
+                                         reply_markup=menu_newmsg_back_keyboard)
         await ChatGptState.chat_gpt_data2.set()
     else:
         answer_text = 'Произошла ошибка (gpt:error 113)'
         await message.answer(text=answer_text,
-                                   reply_markup=menu_newmsg_back_keyboard)
+                             reply_markup=menu_newmsg_back_keyboard)
         return await state.finish()

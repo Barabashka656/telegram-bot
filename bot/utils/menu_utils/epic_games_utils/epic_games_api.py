@@ -8,7 +8,7 @@ from bot.utils.db_api.models_peewee import (
     Utility,
     EpicMail
 )
-from bot.utils.menu_utils.epic_games_utils import show_epic_free_notification
+from bot.utils.menu_utils.epic_games_utils.epic_games_api import show_epic_free_notification
 
 from epicstore_api import EpicGamesStoreAPI
 

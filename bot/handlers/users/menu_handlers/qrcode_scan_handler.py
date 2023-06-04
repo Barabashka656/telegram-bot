@@ -9,7 +9,7 @@ from bot.keyboards.inline.menu_keyboards.menu_buttoms import (
     menu_newmsg_back_keyboard
 )
 from bot.states.menu_states import QrScanState
-from bot.utils.menu_utils import scan_qrcode
+from bot.utils.menu_utils.work_with_qr import scan_qrcode
 
 from aiogram.dispatcher.storage import FSMContext
 from aiogram import types

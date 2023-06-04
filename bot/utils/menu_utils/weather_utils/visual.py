@@ -20,10 +20,9 @@ async def get_current_visual_weather(city: str) -> dict | InvalidResponseStatusC
           f"&contentType={content_type}" +\
           f"&lang={language}" +\
           "&include=current"
-    
+
     async with aiohttp.ClientSession() as client:
         async with client.get(url=url) as response:
-    
             match response.status:
                 case 200:
                     data = await response.json()
