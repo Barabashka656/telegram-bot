@@ -8,7 +8,7 @@ from bot.utils.db_api.models_peewee import (
     Utility,
     EpicMail
 )
-from bot.utils.menu_utils.epic_games_utils.epic_games_api import show_epic_free_notification
+from bot.utils.menu_utils.epic_games_utils.epic_notification import show_epic_free_notification
 
 from epicstore_api import EpicGamesStoreAPI
 
@@ -49,10 +49,13 @@ def get_free_games_dict() -> list | tuple:
             key_image_url = game.get('keyImages')[0].get('url')
 
         original_price = game.get('price').get('totalPrice').get('fmtPrice').get('originalPrice')
-        if int(original_price):
+        if original_price != "0":
             original_price += '$'
         else:
             original_price = None
+
+        if not game.get('promotions'):
+            continue
 
         if game.get('promotions').get('promotionalOffers'):
             dates = game.get('promotions').get('promotionalOffers')[0].get('promotionalOffers')[0]
@@ -69,7 +72,7 @@ def get_free_games_dict() -> list | tuple:
         if viewable_date:
             raw_viewable_date = datetime.datetime.strptime(viewable_date, date_format)
             viewable_date = raw_viewable_date.astimezone(ZoneInfo('Europe/Minsk'))
-
+        print(title)
         free_games.append({
                           'title': title,
                           'description': description,
