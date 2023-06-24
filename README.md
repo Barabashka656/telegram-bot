@@ -75,13 +75,11 @@ python run.py
 *(REQUIRED)*
 
 - TELEGRAM_API_TOKEN - Bot token from [BotFather](https://telegram.me/BotFather)
-- [OPEN_AI_API_KEY](https://platform.openai.com/account/api-keys) - 
-secret API key for using chatGPT 
-   
-*(OPTIONAL)*
-
-- STORAGE_DIR - files storage directory
-- DATABASE_DIR - database file
+- [OPEN_AI_API_KEY](https://platform.openai.com/account/api-keys) -
+secret API key for using chatGPT
+- ACCU_WEATHER_API_KEY - [API key](https://developer.accuweather.com/) for accessing accuweather.com api
+- TOMORROW_IO_API_KEY - [API key](https://www.tomorrow.io/) for accessing tomorrow.io api
+- VISUAL_API_KEY - [API key](https://www.visualcrossing.com/weather-api) for accessing visualcrossing.com api
 
 # Contributions
 All contributions are welcome. Feel free to create a pull request or an issue.
