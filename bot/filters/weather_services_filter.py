@@ -1,3 +1,5 @@
+import logging
+
 from bot.utils.db_api.models_peewee import (
     db,
     VipUser,
@@ -6,6 +8,9 @@ from bot.utils.db_api.models_peewee import (
 
 from aiogram.dispatcher.filters import BoundFilter
 from aiogram import types
+
+
+logger = logging.getLogger(__name__)
 
 
 class IsCurrentCityNotInDatabase(BoundFilter):

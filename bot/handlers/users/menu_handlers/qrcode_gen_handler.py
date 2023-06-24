@@ -1,3 +1,5 @@
+import logging
+
 from bot.loader import dp
 
 from bot.keyboards.inline.menu_keyboards.menu_callback_datas\
@@ -9,6 +11,8 @@ from bot.utils.menu_utils.work_with_qr import generate_qrcode
 
 from aiogram.dispatcher.storage import FSMContext
 from aiogram import types
+
+logger = logging.getLogger(__name__)
 
 
 @dp.callback_query_handler(start_menu_callback.filter(category="qr_gen"))

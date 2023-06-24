@@ -1,3 +1,5 @@
+import logging
+
 from bot.data.config import STORAGE_PATH
 from bot.loader import dp
 
@@ -13,6 +15,8 @@ from bot.utils.menu_utils.work_with_qr import scan_qrcode
 
 from aiogram.dispatcher.storage import FSMContext
 from aiogram import types
+
+logger = logging.getLogger(__name__)
 
 
 @dp.callback_query_handler(start_menu_callback.filter(category="qr_scan"))

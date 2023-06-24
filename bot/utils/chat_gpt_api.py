@@ -1,5 +1,10 @@
-import openai
+import logging
+
 from bot.data.config import OPEN_AI_API_KEY
+
+import openai
+
+logger = logging.getLogger(__name__)
 
 openai.api_key = OPEN_AI_API_KEY
 

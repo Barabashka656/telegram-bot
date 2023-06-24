@@ -1,4 +1,5 @@
 import os
+import logging
 
 from bot.data.config import STORAGE_PATH
 from bot.loader import bot, dp
@@ -16,6 +17,8 @@ from bot.states.menu_states import YtDlState
 
 from aiogram.dispatcher.storage import FSMContext
 from aiogram import types
+
+logger = logging.getLogger(__name__)
 
 
 @dp.callback_query_handler(start_menu_callback.filter(category="youtube"))

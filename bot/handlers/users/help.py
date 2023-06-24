@@ -1,7 +1,11 @@
+import logging
+
 from bot.loader import dp
 
 from aiogram import types
 from aiogram.dispatcher.filters.builtin import CommandHelp
+
+logger = logging.getLogger(__name__)
 
 
 @dp.message_handler(CommandHelp())

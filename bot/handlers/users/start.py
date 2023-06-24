@@ -1,3 +1,5 @@
+import logging
+
 from bot.loader import dp
 from bot.keyboards.inline.menu_keyboards.menu_callback_datas import start_menu_callback
 from bot.keyboards.inline.menu_keyboards.menu_buttoms import first_level_menu_keyboard
@@ -16,6 +18,8 @@ from bot.states.menu_states import (
 from aiogram.dispatcher.storage import FSMContext
 from aiogram.dispatcher.filters.builtin import CommandStart
 from aiogram import types
+
+logger = logging.getLogger(__name__)
 
 
 @dp.message_handler(CommandStart())

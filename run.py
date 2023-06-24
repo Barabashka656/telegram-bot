@@ -1,10 +1,15 @@
 import os.path
+import logging
 
-from bot.loader import dp, scheduler
+from bot.loader import (
+    dp,
+    scheduler
+)
 from bot.data.config import (
     DATABASE_PATH,
     UPDATE_DATABASE
 )
+from bot.utils.my_logger import configure_logger
 from bot.utils.set_scheduler import set_bot_schedule
 from bot.utils.set_bot_commands import set_default_commands
 from bot.utils.db_api.models_peewee import create_database
@@ -18,6 +23,9 @@ from aiogram import (
     Dispatcher,
     executor
 )
+
+
+logger = logging.getLogger(__name__)
 
 
 async def set_all_default_commands(dp: Dispatcher):
@@ -40,6 +48,11 @@ async def on_startup(dp: Dispatcher):
 
     print("Ready to start")
 
-if __name__ == "__main__":
 
+def main():
+    configure_logger()
     executor.start_polling(dp, on_startup=on_startup, skip_updates=True)
+
+
+if __name__ == "__main__":
+    main()

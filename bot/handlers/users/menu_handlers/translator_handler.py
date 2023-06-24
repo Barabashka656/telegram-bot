@@ -1,7 +1,11 @@
+import logging
+
 from bot.keyboards.inline.menu_keyboards.menu_callback_datas import start_menu_callback
 from bot.loader import dp
 
 from aiogram.types import CallbackQuery
+
+logger = logging.getLogger(__name__)
 
 
 @dp.callback_query_handler(start_menu_callback.filter(category="translator"))

@@ -1,9 +1,15 @@
+import logging
+
 from bot.loader import shortcut_object
+
 from pyshorteners.exceptions import (
     ShorteningErrorException,
     # ExpandingErrorException,
     # BadAPIResponseException
 )
+
+logger = logging.getLogger(__name__)
+
 shortcut_services = ("tinyurl", "chilpit",
                      "clckru", "dagd",
                      "isgd"

@@ -1,4 +1,5 @@
 import datetime
+import logging
 
 from bot.loader import bot
 from bot.utils.db_api.models_peewee import (
@@ -15,6 +16,8 @@ from aiogram.types import (
     InlineKeyboardButton,
     InlineKeyboardMarkup
 )
+
+logger = logging.getLogger(__name__)
 
 
 async def show_epic_free_notification(user_id: int):

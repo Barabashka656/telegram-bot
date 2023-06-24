@@ -1,4 +1,5 @@
 import datetime
+import logging
 
 from bot.data.config import DATABASE_PATH
 from peewee import (
@@ -11,7 +12,7 @@ from peewee import (
     BooleanField
 )
 
-
+logger = logging.getLogger(__name__)
 db = SqliteDatabase(DATABASE_PATH)
 
 

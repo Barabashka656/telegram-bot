@@ -1,6 +1,11 @@
 import os
-
+import logging
 from dotenv import find_dotenv, load_dotenv
+
+
+logger = logging.getLogger(__name__)
+
+
 UPDATE_DATABASE = False  # set True to update database
 
 load_dotenv(find_dotenv())

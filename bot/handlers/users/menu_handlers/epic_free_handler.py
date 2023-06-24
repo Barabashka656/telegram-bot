@@ -1,4 +1,5 @@
 import datetime
+import logging
 
 from bot.loader import dp
 from bot.utils.db_api.models_peewee import (
@@ -21,6 +22,8 @@ from aiogram.types import (
     InlineKeyboardButton,
     InlineKeyboardMarkup
 )
+
+logger = logging.getLogger(__name__)
 
 
 @dp.callback_query_handler(start_menu_callback.filter(category="epic"))

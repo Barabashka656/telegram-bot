@@ -1,4 +1,5 @@
 import datetime
+import logging
 
 from bot.utils.menu_utils.epic_games_utils.epic_games_api import manage_free_games
 from bot.utils.db_api.models_peewee import (
@@ -7,6 +8,8 @@ from bot.utils.db_api.models_peewee import (
 )
 
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
+
+logger = logging.getLogger(__name__)
 
 
 def plug_func():

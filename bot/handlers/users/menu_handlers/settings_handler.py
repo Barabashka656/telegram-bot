@@ -1,3 +1,4 @@
+import logging
 from bot.loader import dp
 from bot.utils.db_api.models_peewee import (
     db,
@@ -14,6 +15,8 @@ from bot.keyboards.inline.menu_keyboards.menu_buttoms import (
 
 from aiogram import types
 from aiogram.types import InlineKeyboardMarkup
+
+logger = logging.getLogger(__name__)
 
 
 @dp.callback_query_handler(start_menu_callback.filter(category="settings"))

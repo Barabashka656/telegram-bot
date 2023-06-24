@@ -1,8 +1,12 @@
+import logging
+
 from bot.data.config import STORAGE_PATH
 
 from yt_dlp import YoutubeDL
 from yt_dlp.utils import DownloadError
 from aiogram import types
+
+logger = logging.getLogger(__name__)
 
 
 def youtube_download(chat_id: str, text: str) -> types.InputFile:

@@ -1,10 +1,13 @@
 import io
 import os
+import logging
 
 from aiogram import types
 import qrcode
 import cv2
 from pyzbar import pyzbar  # https://www.microsoft.com/en-US/download/details.aspx?id=40784 # if error
+
+logger = logging.getLogger(__name__)
 
 
 def generate_qrcode(data: str) -> types.InputFile:

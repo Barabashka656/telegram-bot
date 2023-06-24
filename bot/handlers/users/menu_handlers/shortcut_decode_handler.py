@@ -1,4 +1,5 @@
 import re
+import logging
 
 from bot.loader import dp
 
@@ -13,6 +14,8 @@ from bot.utils.menu_utils import shortcut_apies
 
 from aiogram.dispatcher.storage import FSMContext
 from aiogram import types
+
+logger = logging.getLogger(__name__)
 
 
 @dp.callback_query_handler(start_menu_callback.filter(

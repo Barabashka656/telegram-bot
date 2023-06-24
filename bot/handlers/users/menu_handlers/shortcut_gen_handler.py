@@ -1,4 +1,5 @@
 import re
+import logging
 
 from bot.loader import dp
 from bot.keyboards.inline.menu_keyboards.menu_callback_datas\
@@ -17,6 +18,8 @@ from bot.utils.db_api.models_peewee import (
 
 from aiogram.dispatcher.storage import FSMContext
 from aiogram import types
+
+logger = logging.getLogger(__name__)
 
 
 @dp.callback_query_handler(start_menu_callback.filter(category="shortcut_gen"))

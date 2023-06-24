@@ -1,3 +1,5 @@
+import logging
+
 from bot.loader import dp
 
 from bot.utils.chat_gpt_api import get_openai_response
@@ -10,6 +12,8 @@ from bot.states.menu_states import ChatGptState
 from aiogram.dispatcher.storage import FSMContext
 from aiogram import types
 from openai.error import RateLimitError
+
+logger = logging.getLogger(__name__)
 
 
 INITIAL_DIALOGUE: tuple = (

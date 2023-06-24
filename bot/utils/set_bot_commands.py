@@ -1,8 +1,12 @@
+import logging
+
 from aiogram import Dispatcher
 from aiogram.types import (
     BotCommand,
     BotCommandScopeDefault
 )
+
+logger = logging.getLogger(__name__)
 
 STARTING_COMMANDS = {
     'en': [

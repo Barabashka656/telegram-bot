@@ -1,5 +1,6 @@
 from zoneinfo import ZoneInfo
 import datetime
+import logging
 
 from bot.loader import scheduler
 from bot.utils.db_api.models_peewee import (
@@ -11,6 +12,8 @@ from bot.utils.db_api.models_peewee import (
 from bot.utils.menu_utils.epic_games_utils.epic_notification import show_epic_free_notification
 
 from epicstore_api import EpicGamesStoreAPI
+
+logger = logging.getLogger(__name__)
 
 
 def get_free_games_dict() -> list | tuple:
