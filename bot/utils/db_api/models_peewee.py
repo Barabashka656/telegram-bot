@@ -1,3 +1,6 @@
+import datetime
+
+from bot.data.config import DATABASE_PATH
 from peewee import (
     SqliteDatabase,
     Model,
@@ -7,11 +10,9 @@ from peewee import (
     ForeignKeyField,
     BooleanField
 )
-import datetime
-from bot.data.config import DATABASE_DIR
 
 
-db = SqliteDatabase(DATABASE_DIR)
+db = SqliteDatabase(DATABASE_PATH)
 
 
 class BaseModel(Model):

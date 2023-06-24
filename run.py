@@ -2,7 +2,7 @@ import os.path
 
 from bot.loader import dp, scheduler
 from bot.data.config import (
-    DATABASE_DIR,
+    DATABASE_PATH,
     UPDATE_DATABASE
 )
 from bot.utils.set_scheduler import set_bot_schedule
@@ -26,7 +26,7 @@ async def set_all_default_commands(dp: Dispatcher):
 
 def check_database_exist(update_database: bool):
     update_database = True
-    if not os.path.exists(DATABASE_DIR) \
+    if not os.path.exists(DATABASE_PATH) \
        or update_database:
         create_database()
 

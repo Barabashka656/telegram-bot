@@ -1,6 +1,6 @@
 import os
 
-from bot.data.config import STORAGE_DIR
+from bot.data.config import STORAGE_PATH
 from bot.loader import bot, dp
 from bot.utils.db_api.models_peewee import (
     db,
@@ -38,7 +38,7 @@ async def send_yt_video(message: types.Message, state: FSMContext):
             await state.finish()
             return
 
-    file_dir = STORAGE_DIR + f"{message.from_user.id}.webm"
+    file_dir = STORAGE_PATH + f"{message.from_user.id}.webm"
     message_tobe_removed = await bot.send_message(message.chat.id, 'скачиваем видео')
 
     youtube_video = youtube_download(chat_id=message.from_user.id, text=message.text)

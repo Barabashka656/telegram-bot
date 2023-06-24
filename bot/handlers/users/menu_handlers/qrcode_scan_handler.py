@@ -1,4 +1,4 @@
-from bot.data.config import STORAGE_DIR
+from bot.data.config import STORAGE_PATH
 from bot.loader import dp
 
 from bot.keyboards.inline.menu_keyboards.menu_callback_datas\
@@ -32,7 +32,7 @@ async def handle_wrong_update(message: types.Message):  # TODO(rename): rename f
 @dp.message_handler(state=QrScanState.qr_scan_data,
                     content_types=types.ContentTypes.PHOTO)
 async def get_qr(message: types.Message, state: FSMContext):
-    filedir = STORAGE_DIR + f"{message.from_user.id}.png"
+    filedir = STORAGE_PATH + f"{message.from_user.id}.png"
     await message.photo[-1].download(destination_file=filedir)
     answer_text = scan_qrcode(filedir)
     await message.answer(text=answer_text, reply_markup=menu_newmsg_back_keyboard)
