@@ -1,5 +1,9 @@
+import logging
+
 from pydantic import BaseModel,\
     Field, validator
+
+logger = logging.getLogger(__name__)
 
 
 class UnitType(BaseModel):

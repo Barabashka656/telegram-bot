@@ -1,3 +1,5 @@
+import logging
+
 from bot.data.config import ACCU_WEATHER_API_KEY
 from bot.utils.custom_bot_exceptions import (
     InvalidResponseStatusCodeError,
@@ -5,6 +7,8 @@ from bot.utils.custom_bot_exceptions import (
 )
 
 import aiohttp
+
+logger = logging.getLogger(__name__)
 
 
 async def get_accu_city_id(city: str) -> str:

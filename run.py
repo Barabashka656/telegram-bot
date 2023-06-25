@@ -46,7 +46,7 @@ async def on_startup(dp: Dispatcher):
 
     set_bot_schedule(scheduler)
 
-    print("Ready to start")
+    logger.info("Ready to start")
 
 
 def main():

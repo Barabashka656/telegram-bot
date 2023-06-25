@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 
 def plug_func():
-    print('plug func')
+    logger.info('plug func')
 
 
 def set_bot_schedule(scheduler: AsyncIOScheduler):
@@ -22,4 +22,4 @@ def set_bot_schedule(scheduler: AsyncIOScheduler):
     scheduler.start()
     with db:
         Utility.delete().execute()
-    print("расписание составлено")
+    logger.info("schedule drawn up")

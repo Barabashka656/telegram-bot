@@ -1,7 +1,11 @@
+import logging
+
 from bot.data.config import TOMORROW_IO_API_KEY
 from bot.utils.custom_bot_exceptions import InvalidResponseStatusCodeError
 
 import aiohttp
+
+logger = logging.getLogger(__name__)
 
 
 async def get_current_tomorrow_weather(city: str) -> dict | InvalidResponseStatusCodeError:

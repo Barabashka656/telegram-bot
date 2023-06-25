@@ -1,9 +1,13 @@
+import logging
+
 from .weather_class import (
     AccuWeather,
     VisualWeather,
     TommorowWeather,
     BaseWeather
 )
+
+logger = logging.getLogger(__name__)
 
 
 def weather_processing_overview(raw_weather_data: BaseWeather) -> str:

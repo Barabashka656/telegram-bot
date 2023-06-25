@@ -35,7 +35,6 @@ class IsFirstCurrentWeatherUseFilter(BoundFilter):
 class IsWeatherPremiumFilter(BoundFilter):
     async def check(self, call: types.CallbackQuery) -> bool:
         with db:
-            print(VipUser.get_or_none(user_id=call.message.chat.id, is_weather_premium=True))
             return VipUser.get_or_none(user_id=call.message.chat.id, is_weather_premium=True)
 
 

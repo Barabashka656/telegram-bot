@@ -21,14 +21,13 @@ logger = logging.getLogger(__name__)
 
 
 async def show_epic_free_notification(user_id: int):
-    # await bot.send_message.delete()
     games = EpicFreeGame.select()
     for game in games:
         epic_link = InlineKeyboardButton(text="Открыть Epic games", url=game.product_slug)
         epic_store_keyboard = InlineKeyboardMarkup().insert(epic_link)
         await bot.send_photo(chat_id=user_id, photo=game.key_image_url, caption=game.description)
-        if game.start_date and game.end_date:
 
+        if game.start_date and game.end_date:
             start_date = datetime.datetime.fromisoformat(game.start_date).strftime("%H:%M %d-%m-%Y")
             end_date = datetime.datetime.fromisoformat(game.end_date).strftime("%H:%M %d-%m-%Y")
             answer_text = f"{game.title}\n Игра бесплатна с {start_date} по {end_date}"

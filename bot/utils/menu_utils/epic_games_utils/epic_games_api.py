@@ -28,9 +28,7 @@ def get_free_games_dict() -> list | tuple:
 
     for game in games:
         # не заносим в бд игры с ценником (платные)
-        if game.get('price').get('totalPrice').get('discountPrice') == 0:
-            pass
-        else:
+        if game.get('price').get('totalPrice').get('discountPrice') != 0:
             continue
 
         title = game.get('title')
@@ -97,10 +95,9 @@ async def manage_free_games() -> tuple | None:  # TODO(remake): remake func
     flag = True
     try:
         free_games = get_free_games_dict()
+        logger.info('free games getting', free_games)
     except Exception as e:
-        print("getting free games failed")
-        print(e.args)
-        print(type(e.args))
+        logger.critical("getting free games failed", e)
         return e.args
 
     current_time = datetime.datetime.now(ZoneInfo("Europe/Minsk"))
@@ -122,18 +119,19 @@ async def manage_free_games() -> tuple | None:  # TODO(remake): remake func
     else:
         run_date = min(new_start_date, new_end_date) + datetime.timedelta(seconds=10)
 
-    print('next write will be in', run_date)
+    logger.info('next write will be in', run_date)
     try:
         await write_to_database(run_date=run_date, games=free_games)
+        logger.info('succesful writing', run_date)
     except Exception as e:
-        print("writing database error:", e)
+        logger.critical("writing database error:", e)
 
 
 async def write_to_database(run_date: str, games):
     with db:
         EpicFreeGame.delete().execute()
         EpicFreeGame.insert_many(games).execute()
-        print("successful write to database")
+        logger.info("successful write to database")
         forced_mailing = False
         if forced_mailing:
             Utility(
@@ -152,8 +150,8 @@ async def write_to_database(run_date: str, games):
 
             for user in users:
                 await show_epic_free_notification(user_id=user.user_id.user_id)
+                logger.info("successful notification", user)
 
-            print("distribution was successful")
+            logger.info("distribution was successful")
 
         scheduler.add_job(manage_free_games, 'date', run_date=run_date, replace_existing=True, id='epic_job')
-        return None

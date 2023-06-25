@@ -115,7 +115,6 @@ async def epic_notif_sub(call: types.CallbackQuery):
 
 @dp.callback_query_handler(start_menu_callback.filter(category="epic_cancel"))
 async def epic_notif_cancel(call: types.CallbackQuery):
-    print(datetime.datetime.now())
     await call.answer(cache_time=0)
     with db:
         user = EpicMail.get_or_none(

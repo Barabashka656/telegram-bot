@@ -123,4 +123,4 @@ def create_database():
                   ]
 
         db.create_tables(models)
-        print('database was correctly updated')
+        logger.info('database was correctly updated')

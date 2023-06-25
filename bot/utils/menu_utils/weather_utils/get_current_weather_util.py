@@ -1,4 +1,5 @@
 from typing import NamedTuple
+import logging
 
 from .visual import get_current_visual_weather
 from .tomorrow import get_current_tomorrow_weather
@@ -25,6 +26,8 @@ from bot.utils.db_api.models_peewee import (
 )
 
 from aiogram import types
+
+logger = logging.getLogger(__name__)
 
 
 class WeatherHandledTuple(NamedTuple):

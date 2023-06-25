@@ -1,3 +1,4 @@
+import logging
 from bot.data.config import TELEGRAM_API_TOKEN
 
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
@@ -7,6 +8,8 @@ from aiogram import (
     Dispatcher
 )
 import pyshorteners
+
+logger = logging.getLogger(__name__)
 
 
 shortcut_object = pyshorteners.Shortener()

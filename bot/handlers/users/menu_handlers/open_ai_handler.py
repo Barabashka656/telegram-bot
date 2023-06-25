@@ -41,8 +41,8 @@ async def handle_first_gpt_state(message: types.Message, state: FSMContext):
     try:
         messages = get_openai_response(user_response, messages)
     except RateLimitError as e:
-        print(e)
         answer_text = 'Произошла ошибка (gpt:error 114)'
+        logger.critical(answer_text, e)
         return await message.answer(text=answer_text,
                                     reply_markup=menu_newmsg_back_keyboard)
 

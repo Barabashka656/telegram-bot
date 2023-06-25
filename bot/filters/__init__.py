@@ -1,3 +1,5 @@
+import logging
+
 from .weather_services_filter import (
     IsAccuWeatherFilter,
     IsVisualWeatherFilter,
@@ -7,6 +9,9 @@ from .weather_services_filter import (
     IsCurrentCityNotInDatabase
 )
 from bot.loader import dp
+
+logger = logging.getLogger(__name__)
+
 
 if __name__ == 'filters':
     dp.filters_factory.bind(

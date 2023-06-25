@@ -1,9 +1,12 @@
 import datetime
+import logging
 
 from bot.utils.custom_bot_exceptions import InvalidResponseStatusCodeError
 from bot.data.config import VISUAL_API_KEY
 
 import aiohttp
+
+logger = logging.getLogger(__name__)
 
 
 async def get_current_visual_weather(city: str) -> dict | InvalidResponseStatusCodeError:
