@@ -8,16 +8,16 @@
 
 <p align="center">
   <a title="Python version" href="https://www.python.org/downloads/release/python-3100">
-    <img alt="'Build' workflow Status" src="https://img.shields.io/github/pipenv/locked/python-version/barabashka656/super-bot?color=%231E90FF&style=for-the-badge">
+    <img alt="'Build' workflow Status" src="https://img.shields.io/github/pipenv/locked/python-version/barabashka656/telegram-bot?color=%231E90FF&style=for-the-badge">
   </a>
   <a title="aiogram version" href="https://github.com/aiogram/aiogram#aiogram">
-   <img alt= ""src="https://img.shields.io/github/pipenv/locked/dependency-version/barabashka656/super-bot/aiogram?color=%23008000&style=for-the-badge">
+   <img alt= ""src="https://img.shields.io/github/pipenv/locked/dependency-version/barabashka656/telegram-bot/aiogram?color=%23008000&style=for-the-badge">
   </a>
   <a title="telegram bot" href="https://t.me/MaksimNeBot">
    <img alt= ""src="https://img.shields.io/badge/telegram-%40MaksimNeBot-blue?style=for-the-badge">
   </a>
-  <a title="license" href="https://github.com/Barabashka656/super-bot/blob/main/LICENSE">
-  <img alt="" src="https://img.shields.io/github/license/Barabashka656/super-bot?color=%239ACD32&style=for-the-badge">
+  <a title="license" href="https://github.com/Barabashka656/telegram-bot/blob/main/LICENSE">
+  <img alt="" src="https://img.shields.io/github/license/Barabashka656/telegram-bot?color=%239ACD32&style=for-the-badge">
   </a>
 </p>
 
@@ -39,11 +39,11 @@
 # Installing
 1. Clone the repository
 ```shell
-git clone https://github.com/Barabashka656/super-bot.git
+git clone https://github.com/Barabashka656/telegram-bot.git
 ```
 2. change working directory to a new one
 ```shell
-cd super-bot
+cd telegram-bot
 ```
 
 3. Install pipenv
